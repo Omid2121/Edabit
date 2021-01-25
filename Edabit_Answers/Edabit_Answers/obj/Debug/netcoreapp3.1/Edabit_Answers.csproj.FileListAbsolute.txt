@@ -1,0 +1,13 @@
+C:\Users\omidh\source\repos\Edabit_Answers\Edabit_Answers\bin\Debug\netcoreapp3.1\Edabit_Answers.exe
+C:\Users\omidh\source\repos\Edabit_Answers\Edabit_Answers\bin\Debug\netcoreapp3.1\Edabit_Answers.deps.json
+C:\Users\omidh\source\repos\Edabit_Answers\Edabit_Answers\bin\Debug\netcoreapp3.1\Edabit_Answers.runtimeconfig.json
+C:\Users\omidh\source\repos\Edabit_Answers\Edabit_Answers\bin\Debug\netcoreapp3.1\Edabit_Answers.runtimeconfig.dev.json
+C:\Users\omidh\source\repos\Edabit_Answers\Edabit_Answers\bin\Debug\netcoreapp3.1\Edabit_Answers.dll
+C:\Users\omidh\source\repos\Edabit_Answers\Edabit_Answers\bin\Debug\netcoreapp3.1\Edabit_Answers.pdb
+C:\Users\omidh\source\repos\Edabit_Answers\Edabit_Answers\obj\Debug\netcoreapp3.1\Edabit_Answers.csprojAssemblyReference.cache
+C:\Users\omidh\source\repos\Edabit_Answers\Edabit_Answers\obj\Debug\netcoreapp3.1\Edabit_Answers.AssemblyInfoInputs.cache
+C:\Users\omidh\source\repos\Edabit_Answers\Edabit_Answers\obj\Debug\netcoreapp3.1\Edabit_Answers.AssemblyInfo.cs
+C:\Users\omidh\source\repos\Edabit_Answers\Edabit_Answers\obj\Debug\netcoreapp3.1\Edabit_Answers.csproj.CoreCompileInputs.cache
+C:\Users\omidh\source\repos\Edabit_Answers\Edabit_Answers\obj\Debug\netcoreapp3.1\Edabit_Answers.dll
+C:\Users\omidh\source\repos\Edabit_Answers\Edabit_Answers\obj\Debug\netcoreapp3.1\Edabit_Answers.pdb
+C:\Users\omidh\source\repos\Edabit_Answers\Edabit_Answers\obj\Debug\netcoreapp3.1\Edabit_Answers.genruntimeconfig.cache
