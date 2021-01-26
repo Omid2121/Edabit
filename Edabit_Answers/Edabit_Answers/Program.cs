@@ -4,28 +4,24 @@ namespace Edabit_Answers
 {
     class Program
     {
-        static void Main(string[] args)
+        public static void Main()
         {
-            Console.WriteLine(Counter(10));
+            Console.WriteLine(ParseArray(new object[] { 1, 2, "a", "b" }));
+            Console.WriteLine(ParseArray(new object[] { "abc", 123, "def", 456 }));
+            Console.WriteLine(ParseArray(new object[] { 1, 2, 3, 17, 24, 3, "a", "123b" }));
         }
 
-        public static int Counter(int num)
-        {
-            int count = 0;
-            while (num > 1)
-            {
-                if (num % 2 == 0)
-                {
-                    num /= 2;
-                    count++;
-                }
-                else if (num % 2 != 0)
-                {
-                    num = num * 3 + 1;
-                    count++;
-                }
-            }
-            return count;
-        }
-    }
+		public static string[] ParseArray(object[] arr)
+		{
+			string[] output = new string[arr.Length];
+
+			int i = 0;
+			foreach (object o in arr)
+			{
+				output[i] = o.ToString();
+				i++;
+			}
+			return output;
+		}
+	}
 }

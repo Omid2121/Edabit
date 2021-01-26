@@ -14,11 +14,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\omidh\\source\\repos\\Edabit_Answers\\Edabit_Answers\\Edabit_Answers.csproj",
+      "projectUniqueName": "C:\\Users\\omidh\\Documents\\GitHub\\Edabit\\Edabit_Answers\\Edabit_Answers\\Edabit_Answers.csproj",
       "projectName": "Edabit_Answers",
-      "projectPath": "C:\\Users\\omidh\\source\\repos\\Edabit_Answers\\Edabit_Answers\\Edabit_Answers.csproj",
+      "projectPath": "C:\\Users\\omidh\\Documents\\GitHub\\Edabit\\Edabit_Answers\\Edabit_Answers\\Edabit_Answers.csproj",
       "packagesPath": "C:\\Users\\omidh\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\omidh\\source\\repos\\Edabit_Answers\\Edabit_Answers\\obj\\",
+      "outputPath": "C:\\Users\\omidh\\Documents\\GitHub\\Edabit\\Edabit_Answers\\Edabit_Answers\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Microsoft\\Xamarin\\NuGet\\"
