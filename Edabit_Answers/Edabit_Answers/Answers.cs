@@ -166,6 +166,161 @@ namespace Edabit_Answers
 			}
 			return output;
 		}
+
+
+    //Find the Bomb
+
+    public static void Main()
+        {
+            Console.WriteLine(Bomb("There is a bomb."));
+			Console.WriteLine(Bomb("Hey, did you think there is a bomb?"));
+			Console.WriteLine(Bomb("This goes boom!!!"));
+		}
+
+		public static string Bomb(string str)
+		{
+			return str.ToLower().Contains("bomb") ? "Duck!!!" : "There is no bomb, relax.";
+		}
+
+
+    //Count Ones in Binary Representation of Integer
+
+      public static void Main()
+        {
+            Console.WriteLine(Binary(12));
+			Console.WriteLine(Binary(100));
+			Console.WriteLine(Binary(999));
+		}
+
+		public static int Binary(int num)
+		{
+			int count = 0;
+			string binary = Convert.ToString(num, 2);
+            for (int i = 0; i < binary.Length; i++)
+            {
+                if (binary[i] == '1')
+                {
+                    count++;
+                }
+            }
+            return count;
+		}
+
+
+
+    //Pentagonal Number
+
+     public static void Main()
+        {
+            Console.WriteLine(pentagonal(1));
+            Console.WriteLine(pentagonal(3));
+            Console.WriteLine(pentagonal(8));
+        }
+
+        public static int pentagonal(int num)
+        {
+            return (5 * num * num - 5 * num + 2) / 2;
+        }
+
+
+    //Return the Middle Character(s) of a String
+
+    public static void Main()
+        {
+            Console.WriteLine(MidChar("test"));
+            Console.WriteLine(MidChar("money"));
+            Console.WriteLine(MidChar("middle"));
+            Console.WriteLine(MidChar("A"));
+
+        }
+
+        public static string MidChar(string str)
+        {
+             int mid = str.Length / 2;
+            if (str.Length % 2 == 0)
+            {
+                return str.Substring((str.Length / 2) - 1, 2);
+            }
+            else if (str.Length % 2 != 0)
+            {
+                return str.Substring((str.Length / 2), 1);
+            }
+            return str;
+        }
+
+
+    //Solve the Equation
+
+    public static void Main()
+        {
+            Console.WriteLine(Equation("1+1"));
+            Console.WriteLine(Equation("7*4-2"));
+            Console.WriteLine(Equation("1+1+1+1+1"));
+            Console.WriteLine(Equation("5+5/2"));
+
+        }
+
+        public static int Equation(string str)
+        {
+            return Convert.ToInt32(new DataTable().Compute(str, null));
+        }
+
+
+    //Filter out Strings from an Array
+
+     public static void Main()
+        {
+            Console.WriteLine(FilterArray(new object[] { 1, 2, "a", "b" }));
+            Console.WriteLine(FilterArray(new object[] { 1, "a", "b", 0, 15 }));
+            Console.WriteLine(FilterArray(new object[] { 1, 2, "aasf", "1", "123", 123 }));
+            Console.WriteLine(FilterArray(new object[] { "jsyt", 4, "yt", 6 }));
+        }
+
+        public static int[] FilterArray(object[] arr)
+        {
+            var ints = new List<int>();
+            for (int i = 0; i < arr.Length; i++)
+            {
+                if (arr[i] is Int32)
+                {
+                    ints.Add((int)arr[i]);
+                }
+            }
+            return ints.ToArray();
+        }
+
+
+    //Maskify the String
+
+     public static void Main()
+        {
+            Console.WriteLine(Maskify("4556364607935616"));
+            Console.WriteLine(Maskify("64607935121"));
+            Console.WriteLine(Maskify("1"));
+            Console.WriteLine(Maskify(""));
+        }
+
+        public static string Maskify(string str)
+        {
+            int amountOfStars = str.Length - 4;
+            if (str.Length > 4)
+            {
+                return string.Concat("".PadLeft(amountOfStars, '*'),str.Substring(amountOfStars));
+            }
+            return str;
+        }
+
+    //Positive Count / Negative Sum
+
+
+
+    //ATM PIN Code Validation
+
+
+
+    //Check if a Number is a Palindrome
+
+
      */
 
 }
