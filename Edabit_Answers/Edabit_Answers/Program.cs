@@ -8,22 +8,29 @@ namespace Edabit_Answers
 {
     class Program
     {
-        public static void Main()
+        static void Main(string[] args)
         {
-            Console.WriteLine(Maskify("4556364607935616"));
-            Console.WriteLine(Maskify("64607935121"));
-            Console.WriteLine(Maskify("1"));
-            Console.WriteLine(Maskify(""));
+            Console.WriteLine(Compare("abcdefgh", "abijsklm"));
+            Console.WriteLine(Compare("abcde", "osuefrcd"));
+            Console.WriteLine(Compare("pqrstuvwx", "pqkdiewx"));
+            Console.ReadLine();
         }
 
-        public static string Maskify(string str)
+        public static int Compare(string str1, string str2)
         {
-            int amountOfStars = str.Length - 4;
-            if (str.Length > 4)
+            var counter = 0;
+            for (int i = 0; i < str1.Length - 1; i++)
             {
-                return string.Concat("".PadLeft(amountOfStars, '*'),str.Substring(amountOfStars));
+                var firstString = str1.Substring(i, 2);
+                for (int j = 0; j < str2.Length - 1; j++)
+                {
+                    var secoundString = str2.Substring(j, 2);
+                    if (firstString == secoundString)
+                        counter++;
+                }
             }
-            return str;
+            return counter;
         }
     }
 }
+
