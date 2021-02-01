@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Data;
 using System.Collections.Generic;
-
+using System.Text.RegularExpressions;
 
 namespace Edabit_Answers
 {
@@ -10,26 +10,21 @@ namespace Edabit_Answers
     {
         static void Main(string[] args)
         {
-            Console.WriteLine(Compare("abcdefgh", "abijsklm"));
-            Console.WriteLine(Compare("abcde", "osuefrcd"));
-            Console.WriteLine(Compare("pqrstuvwx", "pqkdiewx"));
-            Console.ReadLine();
+            Console.WriteLine(Collatz(10, 15));
+            Console.WriteLine(Collatz(53782, 72534));
+            Console.WriteLine(Collatz(72221, 11198));
+            Console.WriteLine(Collatz(1723817263, 837249873748));
         }
 
-        public static int Compare(string str1, string str2)
+        public static string Collatz(Int64 a, Int64 b)
         {
-            var counter = 0;
-            for (int i = 0; i < str1.Length - 1; i++)
+            while (true)
             {
-                var firstString = str1.Substring(i, 2);
-                for (int j = 0; j < str2.Length - 1; j++)
-                {
-                    var secoundString = str2.Substring(j, 2);
-                    if (firstString == secoundString)
-                        counter++;
-                }
+                if (a == 1) return "a";
+                if (b == 1) return "b";
+                a = a % 2 == 0 ? a / 2 : 3 * a + 1;
+                b = b % 2 == 0 ? b / 2 : 3 * b + 1;
             }
-            return counter;
         }
     }
 }

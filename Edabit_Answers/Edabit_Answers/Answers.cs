@@ -603,7 +603,205 @@ namespace Edabit_Answers
 
 
 
+    //ReverseAndNot
 
+    static void Main(string[] args)
+        {
+            Console.WriteLine(ReverseAndNot(123));
+            Console.WriteLine(ReverseAndNot(632156));
+            Console.WriteLine(ReverseAndNot(989898762));
+        }
+
+        public static string ReverseAndNot(int i)
+        {
+            string str_i = i.ToString();
+            string rev_str_i = new string(str_i.Reverse().ToArray());
+            return rev_str_i + str_i;
+        }
+
+
+
+    //Power Ranger
+
+    static void Main(string[] args)
+        {
+            Console.WriteLine(PowerRanger(2, 49, 65));
+            Console.WriteLine(PowerRanger(3, 1, 27));
+            Console.WriteLine(PowerRanger(10, 1, 5));
+            Console.WriteLine(PowerRanger(4, 250, 1300));
+        }
+
+        public static int PowerRanger(int power, int min, int max)
+        {
+            int counter = 0;
+            for (int i = min; i <= max; i++)
+            {
+                if (Math.Pow(i, 1.0 / power) % 1 == 0) counter++;
+            }
+            return counter;
+        }
+
+
+
+    //Find the Vertex of a Quadratic
+
+            static void Main(string[] args)
+        {
+            Console.WriteLine(FindVertex(2, 49, 65));
+            Console.WriteLine(FindVertex(3, 1, 27));
+            Console.WriteLine(FindVertex(10, 1, 5));
+            Console.WriteLine(FindVertex(4, 250, 1300));
+        }
+
+        public static double[] FindVertex(int a, int b, int c)
+        {
+            var x = (double)(-b) / (2 * a);
+            return new double[] { x, a * x * x + b * x + c };
+        }
+
+
+
+    //Smooth Sentences
+
+    static void Main(string[] args)
+        {
+            Console.WriteLine(IsSmooth("Marta appreciated deep perpendicular right trapezoids"));
+            Console.WriteLine(IsSmooth("Someone is outside the doorway"));
+            Console.WriteLine(IsSmooth("She eats super righteously"));
+            Console.WriteLine(IsSmooth("Mad dislikes sharp pointy yoyos"));
+        }
+
+        public static bool IsSmooth(string sentence)
+        {
+            var arr = sentence.Split(' ');
+            for (int i = 0; i < arr.Length - 1; i++)
+            {
+                if (Char.ToLower(arr[i].Last()) != Char.ToLower(arr[i + 1].First()))
+                    return false;
+            }
+            return true;
+        }
+
+
+
+    //Next Prime
+
+     static void Main(string[] args)
+        {
+            Console.WriteLine(NextPrime(1));
+            Console.WriteLine(NextPrime(12));
+            Console.WriteLine(NextPrime(22));
+            Console.WriteLine(NextPrime(33));
+        }
+
+        public static int NextPrime(int num)
+        {
+            int nextP = num;
+
+            while (!IsPrime(nextP))
+            {
+                nextP++;
+            }
+
+            return nextP;
+        }
+
+        private static bool IsPrime(int n)
+        {
+            if (n < 2) return false;
+
+            for (int i = 2; i * i <= n; i++)
+            {
+                if (n % i == 0)
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+
+
+    //Valid Hex Code
+
+     static void Main(string[] args)
+        {
+            Console.WriteLine(IsValidHexCode("#EAECEE"));
+            Console.WriteLine(IsValidHexCode("#CD5C5C"));
+            Console.WriteLine(IsValidHexCode("#eaecee"));
+            Console.WriteLine(IsValidHexCode("#CD5C&C"));
+        }
+
+        public static bool IsValidHexCode(string str)
+        {
+            Regex rgx = new Regex(@"#[A-Fa-f0-9]{6}$");
+            return rgx.IsMatch(str);
+        }
+
+
+
+    //Is the Die Loaded
+
+    static void Main(string[] args)
+        {
+            Console.WriteLine(FairDie(new[] { 44, 52, 33, 40, 41, 30 }));
+            Console.WriteLine(FairDie(new[] { 34, 27, 23, 20, 32, 28 }));
+            Console.WriteLine(FairDie(new[] { 10, 20, 11, 5, 19, 16 }));
+            Console.WriteLine(FairDie(new[] { 10, 20, 11, 5, 19, 16 }));
+        }
+
+        public static bool FairDie(int[] arr)
+        {
+            var exp = arr.Sum() / arr.Length;
+            return arr.Sum(n => Math.Pow(n - exp, 2)) / exp < 11.07;
+        }
+
+
+
+    //A Week Later
+
+        static void Main(string[] args)
+        {
+            Console.WriteLine(WeekAfter("01/01/2021"));
+            Console.WriteLine(WeekAfter("01/01/2000"));
+            Console.WriteLine(WeekAfter("21/12/1989"));
+            Console.WriteLine(WeekAfter("12/03/2020"));
+        }
+
+        public static string WeekAfter(string date)
+        {
+            var dmy = date.Split('/').Select(s => int.Parse(s)).ToArray();
+            var dat = new DateTime(dmy[2], dmy[1], dmy[0]).AddDays(7);
+            return $"{dat.Day:00}/{dat.Month:00}/{dat.Year}";
+        }
+
+
+
+    //3n + 1 Problem (Collatz Conjecture)
+
+            static void Main(string[] args)
+        {
+            Console.WriteLine(Collatz(10, 15));
+            Console.WriteLine(Collatz(53782, 72534));
+            Console.WriteLine(Collatz(72221, 11198));
+            Console.WriteLine(Collatz(1723817263, 837249873748));
+        }
+
+        public static string Collatz(Int64 a, Int64 b)
+        {
+            while (true)
+            {
+                if (a == 1) return "a";
+                if (b == 1) return "b";
+                a = a % 2 == 0 ? a / 2 : 3 * a + 1;
+                b = b % 2 == 0 ? b / 2 : 3 * b + 1;
+            }
+        }
+
+
+
+    //
 
      */
 
