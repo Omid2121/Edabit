@@ -3,6 +3,7 @@ using System.Linq;
 using System.Data;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
+using System.Text;
 
 namespace Edabit_Answers
 {
@@ -10,22 +11,25 @@ namespace Edabit_Answers
     {
         static void Main(string[] args)
         {
-            Console.WriteLine(Collatz(10, 15));
-            Console.WriteLine(Collatz(53782, 72534));
-            Console.WriteLine(Collatz(72221, 11198));
-            Console.WriteLine(Collatz(1723817263, 837249873748));
+            Console.WriteLine(GetFrame(4, 5, '#'));
+            Console.WriteLine(GetFrame(10, 3, '*')); 
+            Console.WriteLine(GetFrame(2, 5, '0'));
+            Console.WriteLine(GetFrame(3, 2, '$'));
         }
 
-        public static string Collatz(Int64 a, Int64 b)
+        public static string[] GetFrame(int w, int h, char ch)
         {
-            while (true)
-            {
-                if (a == 1) return "a";
-                if (b == 1) return "b";
-                a = a % 2 == 0 ? a / 2 : 3 * a + 1;
-                b = b % 2 == 0 ? b / 2 : 3 * b + 1;
-            }
+            if (w < 3 || h < 3)
+                return new string[] { "invalid" };
+            string[] res = new string[h];
+            for (int i = 0; i < h; i++)
+                if (i == 0 || i == h - 1)
+                    res[i] = new string(ch, w);
+                else
+                    res[i] = ch.ToString() + new string(' ', w - 2) + ch.ToString();
+            return res;
         }
     }
 }
+
 

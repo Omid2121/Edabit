@@ -801,8 +801,216 @@ namespace Edabit_Answers
 
 
 
-    //
+    //C*ns*r*d Str*ngs
 
+    static void Main(string[] args)
+        {
+            Console.WriteLine(Uncensor("Wh*r* d*d my v*w*ls g*?", "eeioeo"));
+            Console.WriteLine(Uncensor("abcd", ""));
+            Console.WriteLine(Uncensor("*PP*RC*S*", "UEAE"));
+            Console.WriteLine(Uncensor("Ch**s*, Gr*mm*t -- ch**s*", "eeeoieee"));
+        }
+
+		public static string Uncensor(string txt, string vowels)
+		{
+			StringBuilder sb = new StringBuilder(); int index = 0;
+			for (int i = 0; i < txt.Length; i++)
+			{
+				if (txt[i] == '*')
+				{
+					sb.Append(vowels[index]); index++;
+				}
+				else sb.Append(txt[i]);
+			}
+			return sb.ToString();
+		}
+
+
+
+    //Reverse Coding Challenge #1
+
+            static void Main(string[] args)
+        {
+            Console.WriteLine(MysteryFunc("A4B5C2"));
+            Console.WriteLine(MysteryFunc("C2F1E5"));
+            Console.WriteLine(MysteryFunc("T4S2V2"));
+            Console.WriteLine(MysteryFunc("A1B2C3D4"));
+        }
+
+        public static string MysteryFunc(string str)
+        {
+            string answer = "";
+            for (int i = 0; i < str.Length; i = i + 2)
+            {
+                answer = answer + new string(str[i], (int)char.GetNumericValue(str[i + 1]));
+            }
+
+            return answer;
+        }
+
+
+
+    //Convert to Hex
+
+    static void Main(string[] args)
+        {
+            Console.WriteLine(ConvertToHex("hello world"));
+            Console.WriteLine(ConvertToHex("Big Boi"));
+            Console.WriteLine(ConvertToHex("Marty Poppinson"));
+            Console.WriteLine(ConvertToHex("abcdefghi"));
+        }
+
+        public static string ConvertToHex(string inputword)
+        {
+            return inputword.ToCharArray().Aggregate("", (a, b) => a + ((byte)b).ToString("X") + " ").ToLower().Trim();
+        }
+
+
+
+    //Clear Brackets
+
+    static void Main(string[] args)
+        {
+            Console.WriteLine(Brackets("(a*(b-c)..... )"));
+            Console.WriteLine(Brackets(")(a-b-45/7*(a-34))"));
+            Console.WriteLine(Brackets("sin(90...)+.............cos1)"));
+            Console.WriteLine(Brackets(")))((("));
+        }
+
+        public static bool Brackets(string str)
+        {
+            int checker = 0;
+            var brackets = str.Where(x => x == '(' || x == ')').ToArray();
+            if (brackets.Count() == 0)
+                return true;
+            for (int i = 0; i < brackets.Count(); i++)
+            {
+                if (brackets[i] == '(')
+                    checker++;
+                else
+                    checker--;
+                if (checker < 0)
+                    return false;
+            }
+            return true;
+        }
+
+
+
+    //Sock Pairs
+
+     static void Main(string[] args)
+        {
+            Console.WriteLine(SockPairs("AA"));
+            Console.WriteLine(SockPairs("ABABC"));
+            Console.WriteLine(SockPairs("CABBACCC"));
+            Console.WriteLine(SockPairs("AAACCBB"));
+        }
+
+        public static int SockPairs(string socks)
+        {
+            int cnt = 0;
+            char[] arr = socks.ToCharArray();
+            Array.Sort(arr);
+
+            for (int i = 1; i < arr.Length; i++)
+            {
+                if (arr[i] == arr[i - 1])
+                {
+                    cnt++;
+                    i++;
+                }
+            }
+
+            return cnt;
+        }
+
+
+
+    //Reverse Coding Challenge #5
+
+            static void Main(string[] args)
+        {
+            Console.WriteLine(MysteryFunc(832));
+            Console.WriteLine(MysteryFunc(51));
+            Console.WriteLine(MysteryFunc(7977));
+            Console.WriteLine(MysteryFunc(1));
+        }
+
+        public static int MysteryFunc(int num)
+        {
+            List<char> a = new List<char>(num.ToString().ToList());
+            a.Sort();
+            int x = 0;
+            int i = a.Count - 1;
+            foreach (var stuff in a)
+            {
+                x += Convert.ToInt32(Math.Pow(10, i) * char.GetNumericValue(stuff));
+                i--;
+            }
+            return num - x;
+        }
+
+
+
+    //Consecutive Numbers
+
+            static void Main(string[] args)
+        {
+            Console.WriteLine(Cons(new[] { 5, 1, 4, 3, 2 }));
+            Console.WriteLine(Cons(new[] { 5, 1, 4, 3, 2, 8 })); 
+            Console.WriteLine(Cons(new[] { 5, 6, 7, 8, 9, 9 }));
+            Console.WriteLine(Cons(new[] { 5, 3 }));
+        }
+
+        public static bool Cons(int[] arr)
+        {
+            Array.Sort(arr);
+            for (int i = 1; i < arr.Length; i++)
+                if (arr[i] - arr[i - 1] != 1)
+                    return false;
+            return true;
+        }
+
+
+
+    //Count the Number of Duplicate Characters
+
+            static void Main(string[] args)
+        {
+            Console.WriteLine(DuplicateCount("abcde"));
+            Console.WriteLine(DuplicateCount("aabbcde")); 
+            Console.WriteLine(DuplicateCount("Indivisibilities"));
+            Console.WriteLine(DuplicateCount("Aa"));
+        }
+
+        public static int DuplicateCount(string str) =>
+            str.GroupBy(c => c).Count(x => x.Count() > 1);
+
+
+
+    //Creating a Picture Frame
+
+     static void Main(string[] args)
+        {
+            Console.WriteLine(GetFrame(4, 5, '#'));
+            Console.WriteLine(GetFrame(10, 3, '*')); 
+            Console.WriteLine(GetFrame(2, 5, '0'));
+            Console.WriteLine(GetFrame(3, 2, '$'));
+        }
+
+        public static string[] GetFrame(int w, int h, char ch)
+        {
+            if (w < 3 || h < 3)
+                return new string[] { "invalid" };
+            string[] res = new string[h];
+            for (int i = 0; i < h; i++)
+                if (i == 0 || i == h - 1)
+                    res[i] = new string(ch, w);
+                else
+                    res[i] = ch.ToString() + new string(' ', w - 2) + ch.ToString();
+            return res;
+        }
      */
 
 }
