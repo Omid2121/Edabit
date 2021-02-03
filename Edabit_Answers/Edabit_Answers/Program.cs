@@ -4,6 +4,7 @@ using System.Data;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using System.Text;
+using System.Numerics;
 
 namespace Edabit_Answers
 {
@@ -11,23 +12,23 @@ namespace Edabit_Answers
     {
         static void Main(string[] args)
         {
-            Console.WriteLine(GetFrame(4, 5, '#'));
-            Console.WriteLine(GetFrame(10, 3, '*')); 
-            Console.WriteLine(GetFrame(2, 5, '0'));
-            Console.WriteLine(GetFrame(3, 2, '$'));
+            Console.WriteLine(MysteryFunc(3));
+            Console.WriteLine(MysteryFunc(9)); 
+            Console.WriteLine(MysteryFunc(17));
+            Console.WriteLine(MysteryFunc(24));
         }
 
-        public static string[] GetFrame(int w, int h, char ch)
+        public static int MysteryFunc(int num)
         {
-            if (w < 3 || h < 3)
-                return new string[] { "invalid" };
-            string[] res = new string[h];
-            for (int i = 0; i < h; i++)
-                if (i == 0 || i == h - 1)
-                    res[i] = new string(ch, w);
-                else
-                    res[i] = ch.ToString() + new string(' ', w - 2) + ch.ToString();
-            return res;
+            int szam = 0;
+            int hatvany = 1;
+
+            while (num > hatvany * 2)
+            {
+                szam = szam * 10 + 2;
+                hatvany = hatvany * 2;
+            }
+            return szam * 10 + num % hatvany;
         }
     }
 }

@@ -1011,6 +1011,248 @@ namespace Edabit_Answers
                     res[i] = ch.ToString() + new string(' ', w - 2) + ch.ToString();
             return res;
         }
+
+
+
+    //Longest Common Ending
+
+    static void Main(string[] args)
+        {
+            Console.WriteLine(LongestCommonEnding("multiplication", "ration"));
+            Console.WriteLine(LongestCommonEnding("potent", "tent")); 
+            Console.WriteLine(LongestCommonEnding("skyscraper", "carnivore"));
+            Console.WriteLine(LongestCommonEnding("skyscraper", "carnivore"));
+        }
+
+        public static string LongestCommonEnding(string str1, string str2)
+        {
+            for (int i = 0; i < str1.Length; i += 1)
+            {
+                string subStr = str1.Substring(i);
+                if (str2.EndsWith(subStr))
+                {
+                    return subStr;
+                }
+            }
+            return "";
+        }
+
+
+
+    //Find Number of Repetitions of Substring
+
+    static void Main(string[] args)
+        {
+            Console.WriteLine(NumberOfRepeats("abcabcabcabc"));
+            Console.WriteLine(NumberOfRepeats("bcbcbc")); 
+            Console.WriteLine(NumberOfRepeats("llbllbllbllbllbllb"));
+            Console.WriteLine(NumberOfRepeats("kc"));
+        }
+
+		public static int NumberOfRepeats(string str)
+		{
+			for (int i = 2; i <= str.Length / 2; i++)
+			{
+				var nr = str.Length / i;
+				if (str.Length % i == 0 && new string('?', nr).Replace("?", str.Substring(0, i)) == str)
+				{
+					return nr;
+				}
+			}
+			return 1;
+		}
+
+
+
+    //Almost Palindrome
+
+            static void Main(string[] args)
+        {
+            Console.WriteLine(AlmostPalindrome("abcdcbg"));
+            Console.WriteLine(AlmostPalindrome("abccia")); 
+            Console.WriteLine(AlmostPalindrome("abcdaaa"));
+            Console.WriteLine(AlmostPalindrome("1234312"));
+        }
+
+        public static bool AlmostPalindrome(string str)
+        {
+            int count = 0;
+            string reversedStr = string.Join("", str.Reverse());
+            for (int i = 0; i < str.Length; i++)
+                if (reversedStr[i] != str[i])
+                    count++;
+            return count == 2;
+        }
+
+
+
+    //Reversing a Binary String
+
+            static void Main(string[] args)
+        {
+            Console.WriteLine(reversedBinaryInteger(10));
+            Console.WriteLine(reversedBinaryInteger(12)); 
+            Console.WriteLine(reversedBinaryInteger(25));
+            Console.WriteLine(reversedBinaryInteger(45));
+        }
+
+        public static int reversedBinaryInteger(int num)
+        {
+            string s = Convert.ToString(num, 2);
+            char[] array = s.ToCharArray();
+            Array.Reverse(array);
+            s = new string(array);
+            return Convert.ToInt32(s, 2);
+        }
+
+
+
+    //Replace Letters With Position In Alphabet
+
+            static void Main(string[] args)
+        {
+            Console.WriteLine(AlphabetIndex("Wow, does that work?"));
+            Console.WriteLine(AlphabetIndex("The river stole the gods.")); 
+            Console.WriteLine(AlphabetIndex("We have a lot of rain in June."));
+            Console.WriteLine(AlphabetIndex("Lets all be unique together until we realise we are all the same."));
+        }
+
+        public static string AlphabetIndex(string str)
+        {
+            var alphabet = "_abcdefghijklmnopqrstuvwxyz";
+            var indexStr = new StringBuilder();
+
+            foreach (char c in str.ToLower())
+            {
+                if (Char.IsLetter(c))
+                {
+                    indexStr.Append(alphabet.IndexOf(c) + " ");
+                }
+            }
+
+            return indexStr.ToString().Trim();
+        }
+
+
+
+    //Nth Fibonacci Number
+
+            static void Main(string[] args)
+        {
+            Console.WriteLine(Fibonacci(10));
+            Console.WriteLine(Fibonacci(20)); 
+            Console.WriteLine(Fibonacci(30));
+            Console.WriteLine(Fibonacci(40));
+        }
+
+        public static string Fibonacci(int n)
+        {
+            BigInteger a = 0;
+            BigInteger b = 1;
+            BigInteger c = 1;
+            for (int i = 0; i < n; i++)
+            {
+                c = a;
+                a = b;
+                b += c;
+            }
+            return a.ToString();
+        }
+
+
+
+    //Print Grid
+
+    static void Main(string[] args)
+        {
+            Console.WriteLine(PrintGrid(3,6));
+            Console.WriteLine(PrintGrid(5,3)); 
+            Console.WriteLine(PrintGrid(4,1));
+            Console.WriteLine(PrintGrid(1,3));
+        }
+
+        public static int[,] PrintGrid(int rows, int cols)
+        {
+            var res = new int[rows, cols];
+            for (var r = 0; r < rows; r++)
+            {
+                for (var c = 0; c < cols; c++)
+                {
+                    res[r, c] = r + 1 + c * rows;
+                }
+            }
+            return res;
+        }
+
+
+
+    //The Day Rob Was Born in Dutch
+
+    static void Main(string[] args)
+        {
+            Console.WriteLine(WeekdayRobWasBornInDutch(1970, 9, 21));
+            Console.WriteLine(WeekdayRobWasBornInDutch(1945, 9, 2)); 
+            Console.WriteLine(WeekdayRobWasBornInDutch(2001, 9, 11));
+            Console.WriteLine(WeekdayRobWasBornInDutch(2002, 5, 11));
+        }
+
+        public static string WeekdayRobWasBornInDutch(int year, int month, int day)
+        {
+            DateTime date = new DateTime(year, month, day);
+            System.Globalization.CultureInfo dutch = new System.Globalization.CultureInfo("nl-NL");
+
+            string myDay = dutch.DateTimeFormat.DayNames[(int)date.DayOfWeek];
+            return myDay;
+        }
+
+
+
+    //Rhyme Time
+
+     static void Main(string[] args)
+        {
+            Console.WriteLine(DoesRhyme("Sam I am!", "Green eggs and ham."));
+            Console.WriteLine(DoesRhyme("Sam I am!", "Green eggs and HAM.")); 
+            Console.WriteLine(DoesRhyme("You are off to the races", "a splendid day."));
+            Console.WriteLine(DoesRhyme("and frequently do?", "you gotta move."));
+        }
+
+        public static bool DoesRhyme(string str1, string str2)
+        {
+            var vowels = new[] { 'a', 'e', 'i', 'o', 'u' };
+            var firstLastWord = str1.ToLower().Split(' ').Last();
+            var secondLastWord = str2.ToLower().Split(' ').Last();
+
+            return vowels.Intersect(firstLastWord).SequenceEqual(vowels.Intersect(secondLastWord));
+        }
+
+
+
+    //Reverse Coding Challenge #2
+
+    static void Main(string[] args)
+        {
+            Console.WriteLine(MysteryFunc(3));
+            Console.WriteLine(MysteryFunc(9)); 
+            Console.WriteLine(MysteryFunc(17));
+            Console.WriteLine(MysteryFunc(24));
+        }
+
+        public static int MysteryFunc(int num)
+        {
+            int szam = 0;
+            int hatvany = 1;
+
+            while (num > hatvany * 2)
+            {
+                szam = szam * 10 + 2;
+                hatvany = hatvany * 2;
+            }
+            return szam * 10 + num % hatvany;
+        }
+
+
+
      */
 
 }
