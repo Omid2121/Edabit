@@ -1253,6 +1253,220 @@ namespace Edabit_Answers
 
 
 
+    //Difference Cipher
+
+        static void Main(string[] args)
+        {
+            Console.WriteLine(Encrypt("Hello"));
+            Console.WriteLine(Encrypt("The neighbours are strange..")); 
+            Console.WriteLine(Encrypt("OK"));
+            Console.WriteLine(Encrypt("Sunshine"));
+			Console.WriteLine(Decrypt(new[] { 84, 20, -3, -69, 78, -9, 4, -2, 1, -6, 13, 6, -3, 1, -83, 65, 17, -13, -69, 83, 1, -2, -17, 13, -7, -2, -55, 0 }));
+			Console.WriteLine(Decrypt(new[] { 73, 43, -77, 76, -83, 65, -65, 83, -14, -2, 15, -13, 15, -83 }));
+		}
+
+		public static int[] Encrypt(string str)
+		{
+			List<int> nums = new List<int> { str[0] };
+			for (int i = 0; i < str.Length - 1; i++)
+				nums.Add(str[i + 1] - str[i]);
+			return nums.ToArray();
+		}
+
+		public static string Decrypt(int[] arr)
+		{
+			char last = (char)arr[0];
+			return $"{last}{string.Join("", arr.Skip(1).Select(s => last = (char)(last + s)))}";
+		}
+
+
+
+    //Magic Square
+
+            static Func<int, IEnumerable<int>> Range = (n) => Enumerable.Range(0, n);
+
+        public static bool IsMagicSquare(int[][] arr)
+        {
+            var size = arr.Length;
+            var magic = arr[0].Sum();
+            return Range(size).All(r => Range(size).Sum(c => arr[r][c]) == magic)
+                && Range(size).All(c => Range(size).Sum(r => arr[r][c]) == magic)
+                && Range(size).Sum(r => arr[r][r]) == magic
+                && Range(size).Sum(r => arr[size - r - 1][r]) == magic;
+        }
+
+
+
+    //XOR Cipher
+
+            static void Main(string[] args)
+        {
+            Console.WriteLine(XORCipher("11", "22"));
+            Console.WriteLine(XORCipher("1020304", "403201"));
+            Console.WriteLine(XORCipher("c611d9bdd9de38b9eb", "23a0745505d4d25494"));
+            Console.WriteLine(XORCipher("7d1e875da9d5e89b54c7eaf", "3541599be591709795cebd5"));
+        }
+
+        static Func<int, char> int2hex = n => n.ToString("x")[0];
+        static Func<char, int> hex2int = h => int.Parse(h.ToString(), NumberStyles.HexNumber);
+        static Func<char, char, char> XORHex = (first, second) => int2hex(hex2int(first) ^ hex2int(second));
+
+        public static string XORCipher(string msg1, string msg2)
+        {
+            return new string(msg1.Zip(msg2, XORHex).ToArray());
+        }
+
+
+
+    //Dead End Number Sequence
+
+            static void Main(string[] args)
+        {
+            Console.WriteLine(DeadEnd(5));
+            Console.WriteLine(DeadEnd(11));
+            Console.WriteLine(DeadEnd(12345));
+            Console.WriteLine(DeadEnd(101));
+        }
+
+        public static long[] DeadEnd(long n)
+        {
+            var seq = new List<long>();
+            while (!seq.Contains(n))
+            {
+                seq.Add(n);
+                var s = (long)$"{n}".ToCharArray().Sum(c => c - '0');
+                n = n % s > 0 ? n * s : n / s;
+            }
+            return new long[] { (long)seq.Count, seq.Last() };
+        }
+
+
+
+    //Consecutive Numbers
+
+            static void Main(string[] args)
+        {
+            Console.WriteLine(IsThereConsecutive(new int[] { 1, 3, 5, 5, 3, 3, 1 }, 3, 2));
+            Console.WriteLine(IsThereConsecutive(new int[] { 1, 2, 3, 4, 5 }, 1, 1));
+            Console.WriteLine(IsThereConsecutive(new int[] { 1 }, 1, 0));
+            Console.WriteLine(IsThereConsecutive(new int[] { 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7, 8, 8, 9, 9, 0, 0 }, 5, 2));
+        }
+
+        public static bool IsThereConsecutive(int[] arr, int n, int times)
+        {
+            return times == 0
+                ? !arr.Contains(n)
+                : string.Join("", arr.Select(i => $"{i}").ToArray()).Contains(new string(n.ToString()[0], times));
+        }
+
+
+
+    //String Factoring
+
+            static void Main(string[] args)
+        {
+            Console.WriteLine(StringFactor(new int[] { 2, 2, 2, 3, 3 }));
+            Console.WriteLine(StringFactor(new int[] { 2, 7 }));
+            Console.WriteLine(StringFactor(new int[] { 1, 1 }));
+            Console.WriteLine(StringFactor(new int[] { 2, 3, 3 }));
+        }
+
+        public static string StringFactor(int[] arr)
+        {
+            return string.Join(" x ",
+                arr
+                    .GroupBy(i => i)
+                    .Select(g => g.Count() > 1 ? $"{g.Key}^{g.Count()}" : $"{g.Key}")
+            );
+        }
+
+
+
+    //Longest Abecedarian Word
+
+            static void Main(string[] args)
+        {
+            Console.WriteLine(LongestAbecedarian(new string[] { "ace", "spades", "hearts", "clubs" }));
+            Console.WriteLine(LongestAbecedarian(new string[] { "forty", "choppy", "ghost" }));
+            Console.WriteLine(LongestAbecedarian(new string[] { "one", "two", "three" }));
+            Console.WriteLine(LongestAbecedarian(new string[] { "aa bbb cccc" }));
+        }
+
+        public static string LongestAbecedarian(string[] arr)
+        {
+            return arr
+                .Where(w => w == new string(w.ToCharArray().OrderBy(c => c).ToArray()))
+                .OrderByDescending(w => w.Length)
+                .FirstOrDefault() ?? "";
+        }
+
+
+
+    //True Alphabetical Order
+
+            static void Main(string[] args)
+        {
+            Console.WriteLine(TrueAlphabetic("hello world"));
+            Console.WriteLine(TrueAlphabetic("edabit is awesome"));
+            Console.WriteLine(TrueAlphabetic("have a nice day"));
+            Console.WriteLine(TrueAlphabetic("joshua senoron"));
+        }
+
+        public static string TrueAlphabetic(string str)
+        {
+            var q = str.Replace(" ", "")
+                    .ToCharArray()
+                    .OrderByDescending(c => c);
+            var letters = new Stack<char>(q.ToArray());
+            var q2 = Enumerable
+                .Range(0, str.Length)
+                .Select(i => str[i] == ' ' ? ' ' : letters.Pop());
+            return new string(q2.ToArray());
+        }
+
+
+
+    //Imaginary Coding Interview
+
+            static void Main(string[] args)
+        {
+            Console.WriteLine(Interview(new int[] { 5, 5, 10, 10, 15, 15, 20, 20 }, 120 ));
+            Console.WriteLine(Interview(new int[] { 2, 3, 8, 6, 5, 12, 10, 18 }, 120));
+            Console.WriteLine(Interview(new int[] { 2, 3, 8, 6, 5, 12, 10, 18 }, 64));
+            Console.WriteLine(Interview(new int[] { 5, 5, 10, 10, 15, 20, 50 }, 160));
+        }
+
+        public static string Interview(int[] arr, int tot)
+        {
+            var timeLimits = new int[] { 5, 5, 10, 10, 15, 15, 20, 20 };
+            return arr.Zip(timeLimits, (a, b) => a <= b).Count(s => s) == 8 && tot <= 120
+                ? "qualified"
+                : "disqualified";
+        }
+
+
+
+    //camelCase ⇄ snake_case
+
+    static void Main(string[] args)
+        {
+            Console.WriteLine(ToSnakeCase("hello_edabit"));
+            Console.WriteLine(ToSnakeCase("helloEdabit"));
+            Console.WriteLine(ToSnakeCase("is_modal_open"));
+            Console.WriteLine(ToSnakeCase("getColor"));
+        }
+
+        public static string ToSnakeCase(string str)
+        {
+            return Regex.Replace(str, "[A-Z]", "_$0").ToLower();
+        }
+        public static string ToCamelCase(string str)
+        {
+            return Regex.Replace(str, "_[a-z]", delegate (Match m) {
+                return m.ToString().TrimStart('_').ToUpper();
+            });
+        }
+
      */
 
 }

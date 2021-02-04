@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using System.Text;
 using System.Numerics;
+using System.Globalization;
 
 namespace Edabit_Answers
 {
@@ -12,23 +13,21 @@ namespace Edabit_Answers
     {
         static void Main(string[] args)
         {
-            Console.WriteLine(MysteryFunc(3));
-            Console.WriteLine(MysteryFunc(9)); 
-            Console.WriteLine(MysteryFunc(17));
-            Console.WriteLine(MysteryFunc(24));
+            Console.WriteLine(ToSnakeCase("hello_edabit"));
+            Console.WriteLine(ToSnakeCase("helloEdabit"));
+            Console.WriteLine(ToSnakeCase("is_modal_open"));
+            Console.WriteLine(ToSnakeCase("getColor"));
         }
 
-        public static int MysteryFunc(int num)
+        public static string ToSnakeCase(string str)
         {
-            int szam = 0;
-            int hatvany = 1;
-
-            while (num > hatvany * 2)
-            {
-                szam = szam * 10 + 2;
-                hatvany = hatvany * 2;
-            }
-            return szam * 10 + num % hatvany;
+            return Regex.Replace(str, "[A-Z]", "_$0").ToLower();
+        }
+        public static string ToCamelCase(string str)
+        {
+            return Regex.Replace(str, "_[a-z]", delegate (Match m) {
+                return m.ToString().TrimStart('_').ToUpper();
+            });
         }
     }
 }
