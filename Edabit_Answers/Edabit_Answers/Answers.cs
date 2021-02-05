@@ -1467,6 +1467,150 @@ namespace Edabit_Answers
             });
         }
 
+
+
+    //Parseltongue
+
+            static void Main(string[] args)
+        {
+            Console.WriteLine(IsParselTongue("Sshe ssselects to eat that apple. "));
+            Console.WriteLine(IsParselTongue("She ssselects to eat that apple. "));
+            Console.WriteLine(IsParselTongue("Beatrice samples lemonade"));
+            Console.WriteLine(IsParselTongue("You ssseldom sssspeak sso boldly, ssso messmerizingly."));
+        }
+
+        public static bool IsParselTongue(string sentence)
+        {
+            string[] words = sentence.Split(' ');
+            int parsel = 0;
+            int temp = 0;
+
+            for (int i = 0; i < words.Length; i++)
+            {
+                if (!words[i].ToLower().Contains('s')) parsel++;
+                for (int m = 0; m < words[i].Length - 1; m++)
+                {
+                    if (Char.ToLower(words[i][m]) == 's' && Char.ToLower(words[i][m + 1]) == 's') temp++;
+                }
+                if (temp > 0) parsel++;
+                temp = 0;
+
+            }
+            Console.WriteLine(words.Length);
+            Console.WriteLine(parsel);
+
+            return parsel == words.Length;
+        }
+
+
+
+    //Need Help With Your Packing?
+
+            static void Main(string[] args)
+        {
+            Console.WriteLine(CanFit(new int[] { 2, 1, 2, 5, 4, 3, 6, 1, 1, 9, 3, 2 }, 4));
+            Console.WriteLine(CanFit(new int[] { 7, 1, 2, 6, 1, 2, 3, 5, 9, 2, 1, 2, 5 }, 5));
+            Console.WriteLine(CanFit(new int[] { 2, 7, 1, 3, 3, 4, 7, 4, 1, 8, 2 }, 4));
+            Console.WriteLine(CanFit(new int[] { 1, 3, 3, 3, 2, 1, 1, 9, 7, 10, 8, 6, 1, 2, 9 }, 8));
+        }
+
+        public static bool CanFit(int[] weights, int bags)
+        {
+            var total = weights.ToList().Aggregate((a, b) => a + b);
+            var canCarry = bags * 10;
+            return total <= canCarry;
+        }
+
+
+
+    //Triple + Double = So Much Trouble
+
+            static void Main(string[] args)
+        {
+            Console.WriteLine(Trouble(451999277, 41177722899));
+            Console.WriteLine(Trouble(1222345, 12345));
+            Console.WriteLine(Trouble(666789, 12345667));
+            Console.WriteLine(Trouble(33789, 12345337));
+        }
+
+        public static bool Trouble(long num1, long num2)
+        {
+            char nr = ' ';
+            string nr1 = num1.ToString();
+            string nr2 = num2.ToString();
+            for (int i = 0; i < nr1.Length - 2; i++)
+            {
+                if (nr1[i] == nr1[i + 1] && nr1[i] == nr1[i + 2])
+                {
+                    nr = nr1[i];
+                }
+            }
+            if (nr != ' ')
+            {
+                for (int j = 0; j < nr2.Length - 1; j++)
+                {
+                    if (nr2[j] == nr && nr2[j + 1] == nr)
+                        return true;
+                }
+            }
+            else return false;
+            return false;
+        }
+
+
+
+    //Sum of Factors of Factors
+
+            static void Main(string[] args)
+        {
+            Console.WriteLine(SumFF(69));
+            Console.WriteLine(SumFF(12));
+            Console.WriteLine(SumFF(420));
+            Console.WriteLine(SumFF(619));
+        }
+
+        static IEnumerable<int> Factors(int n)
+        {
+            for (int i = 2; i < 1 + n / 2; i++)
+            {
+                if (n % i == 0) yield return i;
+            }
+        }
+
+        public static int SumFF(int a)
+        {
+            return Factors(a).Select(f => Factors(f).Sum()).Sum();
+        }
+
+
+
+    //Average Word Length
+
+            static void Main(string[] args)
+        {
+            Console.WriteLine(AverageWordLength("A B C."));
+            Console.WriteLine(AverageWordLength("What a gorgeous day."));
+            Console.WriteLine(AverageWordLength("Dude, this is so awesome!"));
+            Console.WriteLine(AverageWordLength("Have you ever wondered what Saturn looks like?"));
+        }
+
+        public static double AverageWordLength(string str)
+        {
+            Regex rgx = new Regex("[^a-zA-Z0-9 -]");
+            str = rgx.Replace(str, "");
+            Console.WriteLine(str);
+
+            string[] words = str.Split(' ');
+            int total = 0;
+            foreach (string word in words)
+            {
+                total += word.Length;
+            }
+            return Math.Round((double)total / words.Length, 2);
+        }
+
+
+
      */
 
 }

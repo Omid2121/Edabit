@@ -13,21 +13,25 @@ namespace Edabit_Answers
     {
         static void Main(string[] args)
         {
-            Console.WriteLine(ToSnakeCase("hello_edabit"));
-            Console.WriteLine(ToSnakeCase("helloEdabit"));
-            Console.WriteLine(ToSnakeCase("is_modal_open"));
-            Console.WriteLine(ToSnakeCase("getColor"));
+            Console.WriteLine(AverageWordLength("A B C."));
+            Console.WriteLine(AverageWordLength("What a gorgeous day."));
+            Console.WriteLine(AverageWordLength("Dude, this is so awesome!"));
+            Console.WriteLine(AverageWordLength("Have you ever wondered what Saturn looks like?"));
         }
 
-        public static string ToSnakeCase(string str)
+        public static double AverageWordLength(string str)
         {
-            return Regex.Replace(str, "[A-Z]", "_$0").ToLower();
-        }
-        public static string ToCamelCase(string str)
-        {
-            return Regex.Replace(str, "_[a-z]", delegate (Match m) {
-                return m.ToString().TrimStart('_').ToUpper();
-            });
+            Regex rgx = new Regex("[^a-zA-Z0-9 -]");
+            str = rgx.Replace(str, "");
+            Console.WriteLine(str);
+
+            string[] words = str.Split(' ');
+            int total = 0;
+            foreach (string word in words)
+            {
+                total += word.Length;
+            }
+            return Math.Round((double)total / words.Length, 2);
         }
     }
 }
