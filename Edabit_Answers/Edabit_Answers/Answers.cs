@@ -1611,6 +1611,207 @@ namespace Edabit_Answers
 
 
 
+    //Convert "Zero" and "One" to "1" and "0"
+
+            static void Main(string[] args)
+        {
+            Console.WriteLine(TextToNumberBinary("zero one zero one zero one zero one"));
+            Console.WriteLine(TextToNumberBinary("Zero one zero ONE zero one zero one"));
+            Console.WriteLine(TextToNumberBinary("zero one zero one zero one zero one one two"));
+            Console.WriteLine(TextToNumberBinary("zero one zero one zero one zero three"));
+        }
+
+        public static string TextToNumberBinary(string str)
+        {
+            string result = "";
+            string[] nums = str.Split(' ');
+            foreach (string s in nums)
+            {
+                if (s.ToLower() == "zero" || s.ToLower() == "one")
+                {
+                    if (s.ToLower() == "zero") result += "0";
+                    if (s.ToLower() == "one") result += "1";
+                }
+                else
+                {
+                    continue;
+                }
+            }
+            return result.Length % 8 == 0 ? result : result.Substring(0, result.Length - (result.Length % 8));
+        }
+
+
+
+    //Valid JavaScript Comments
+
+    static void Main(string[] args)
+        {
+            Console.WriteLine(CommentsCorrect("//////"));
+            Console.WriteLine(CommentsCorrect("/////"));
+        }
+
+        public static bool CommentsCorrect(string str)
+        {
+            if (str.Length % 2 != 0)
+                return false;
+
+            string curCommentSymbol = "";
+
+            for (int i = 0; i < str.Length - 1; i++)
+            {
+
+                if (curCommentSymbol == "/*")
+                {
+                    string temp = str[i].ToString() + str[i + 1].ToString();
+
+                    if (temp == curCommentSymbol)
+                        return false;
+                    else if (temp == "//")
+                        return false;
+                }
+
+
+                curCommentSymbol = str[i].ToString() + str[i + 1].ToString();
+                i++;
+
+            }
+
+            return true;
+        }
+
+
+
+    //Cup Swapping
+
+            static void Main(string[] args)
+        {
+            Console.WriteLine(CupSwapping(new String[] { "AB", "CA" }));
+            Console.WriteLine(CupSwapping(new String[] { "AB", "CA", "AB" }));
+            Console.WriteLine(CupSwapping(new String[] { "AC", "CA", "CA", "AC" }));
+            Console.WriteLine(CupSwapping(new String[] { "BA", "AC", "CA", "BC" }));
+        }
+
+        public static string CupSwapping(string[] swaps)
+        {
+            return swaps.Aggregate(
+                  "B",
+                  (curr, move) =>
+                      move.Contains(curr) ? move.Replace(curr, "") : curr);
+        }
+
+
+
+    //Block the Square in Tic Tac Toe
+
+    static void Main(string[] args)
+        {
+            Console.WriteLine(BlockPlayer(0,3));
+            Console.WriteLine(BlockPlayer(0,4));
+            Console.WriteLine(BlockPlayer(3,5));
+            Console.WriteLine(BlockPlayer(2,1));
+        }
+
+        public static int BlockPlayer(int a, int b)
+        {
+            int[][] solutions = { new int[] { 0, 1, 2 }, new int[] { 3, 4, 5 }, new int[] { 6, 7, 8 }, new int[] { 0, 3, 6 }, new int[] { 1, 4, 7 }, new int[] { 2, 5, 8 }, new int[] { 0, 4, 8 }, new int[] { 2, 4, 6 } };
+            int block = 0;
+            for (int i = 0; i < solutions.Length; i++)
+            {
+                if (solutions[i].Contains(a) && solutions[i].Contains(b))
+                {
+                    block = Convert.ToInt32(string.Join("", solutions[i]).Replace(a.ToString(), "").Replace(b.ToString(), ""));
+                    break;
+                }
+            }
+            return block;
+        }
+
+
+
+    //Split the String into N Cases of Equal Length
+
+            static void Main(string[] args)
+        {
+            Console.WriteLine(SplitNCases("Incomprehensible", 4));
+            Console.WriteLine(SplitNCases("Unscrupulous", 2));
+            Console.WriteLine(SplitNCases("Evaluation", 10));
+            Console.WriteLine(SplitNCases("Fool's Errand", 20));
+        }
+
+        public static string[] SplitNCases(string input, int cases)
+        {
+            int len_input = input.Length;
+            if (len_input % cases > 0)
+                return new string[] { "Error" };
+            int len_sub = len_input / cases;
+            string[] res = new string[cases];
+            for (int i = 0; i < cases; i++)
+                res[i] = input.Substring(i * len_sub, len_sub);
+            return res;
+        }
+
+
+
+    //Palindrome Timestamps
+
+            static void Main(string[] args)
+        {
+            Console.WriteLine(PalendromeTimestamps(2, 12, 22, 4, 35, 10));
+            Console.WriteLine(PalendromeTimestamps(12, 12, 12, 13, 13, 13));
+            Console.WriteLine(PalendromeTimestamps(6, 33, 15, 9, 55, 10));
+            Console.WriteLine(PalendromeTimestamps(10, 22, 01, 12, 22, 21));
+        }
+
+        public static int PalendromeTimestamps(int h1, int m1, int s1, int h2, int m2, int s2)
+        {
+            TimeSpan t = new TimeSpan(h1, m1, s1);
+            TimeSpan second = new TimeSpan(0, 0, 1);
+            TimeSpan end = new TimeSpan(h2, m2, s2);
+            string str_t = t.ToString();
+            string str_r = string.Concat(str_t.ToArray().Reverse());
+            int count = str_t == str_r ? 1 : 0;
+            while (t < end)
+            {
+                t = t.Add(second);
+                str_t = t.ToString();
+                str_r = string.Concat(str_t.ToArray().Reverse());
+                count += str_t == str_r ? 1 : 0;
+            }
+            return count;
+        }
+
+
+
+    //Moran Numbers
+
+    static void Main(string[] args)
+        {
+            Console.WriteLine(Moran(132));
+            Console.WriteLine(Moran(133));
+            Console.WriteLine(Moran(134));
+            Console.WriteLine(Moran(135));
+        }
+
+        public static string Moran(int n)
+        {
+            int sum = n.ToString().Select(x => int.Parse(x.ToString())).Sum();
+            if (IsPrime(n / sum)) return "M";
+            if (n % sum == 0) return "H";
+            return "Neither";
+        }
+        public static bool IsPrime(int n)
+        {
+            if (n <= 1) return false;
+            if (n == 2) return true;
+            if (n % 2 == 0) return false;
+            var boundary = (int)Math.Floor(Math.Sqrt(n));
+            for (int i = 3; i <= boundary; i += 2)
+                if (n % i == 0) return false;
+            return true;
+        }
+
+
+
      */
 
 }

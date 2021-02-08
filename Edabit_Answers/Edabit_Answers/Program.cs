@@ -13,25 +13,28 @@ namespace Edabit_Answers
     {
         static void Main(string[] args)
         {
-            Console.WriteLine(AverageWordLength("A B C."));
-            Console.WriteLine(AverageWordLength("What a gorgeous day."));
-            Console.WriteLine(AverageWordLength("Dude, this is so awesome!"));
-            Console.WriteLine(AverageWordLength("Have you ever wondered what Saturn looks like?"));
+            Console.WriteLine(Moran(132));
+            Console.WriteLine(Moran(133));
+            Console.WriteLine(Moran(134));
+            Console.WriteLine(Moran(135));
         }
 
-        public static double AverageWordLength(string str)
+        public static string Moran(int n)
         {
-            Regex rgx = new Regex("[^a-zA-Z0-9 -]");
-            str = rgx.Replace(str, "");
-            Console.WriteLine(str);
-
-            string[] words = str.Split(' ');
-            int total = 0;
-            foreach (string word in words)
-            {
-                total += word.Length;
-            }
-            return Math.Round((double)total / words.Length, 2);
+            int sum = n.ToString().Select(x => int.Parse(x.ToString())).Sum();
+            if (IsPrime(n / sum)) return "M";
+            if (n % sum == 0) return "H";
+            return "Neither";
+        }
+        public static bool IsPrime(int n)
+        {
+            if (n <= 1) return false;
+            if (n == 2) return true;
+            if (n % 2 == 0) return false;
+            var boundary = (int)Math.Floor(Math.Sqrt(n));
+            for (int i = 3; i <= boundary; i += 2)
+                if (n % i == 0) return false;
+            return true;
         }
     }
 }
