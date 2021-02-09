@@ -1812,6 +1812,309 @@ namespace Edabit_Answers
 
 
 
+    //Correct Inequality Signs
+
+            static void Main(string[] args)
+        {
+            Console.WriteLine(CorrectSigns("3 < 7 < 11"));
+            Console.WriteLine(CorrectSigns("13 > 44 > 33 > 1"));
+            Console.WriteLine(CorrectSigns("1 < 2 < 6 < 9 > 3"));
+            Console.WriteLine(CorrectSigns("9 < 9"));
+        }
+
+		public static bool CorrectSigns(string str)
+		{
+			var matches = Regex.Matches(str, @"(?<num1>\d+) (?<sign>[><]) (?=(?<num2>\d+))");
+
+			foreach (Match match in matches)
+			{
+				int num1 = Convert.ToInt32(match.Groups["num1"].Value);
+				int num2 = Convert.ToInt32(match.Groups["num2"].Value);
+				string sign = match.Groups["sign"].Value;
+
+				if ((sign == "<" && num1 >= num2) ||
+					(sign == ">" && num1 <= num2))
+				{
+					return false;
+				}
+			}
+
+			return true;
+		}
+
+
+
+    //Smallest Missing Positive Integer
+
+            static void Main(string[] args)
+        {
+            Console.WriteLine(MinMissPos(new int[] { -2, 6, 4, 5, 7, -1, 7, 1, 3, 6, 6, -2, 9, 10, 2, 2 }));
+            Console.WriteLine(MinMissPos(new int[] { 5, 9, -2, 0, 1, 3, 9, 3, 8, 9 }));
+            Console.WriteLine(MinMissPos(new int[] { 0, 4, 4, -1, 9, 4, 5, 2, 10, 7, 6, 3, 10, 9 }));
+            Console.WriteLine(MinMissPos(new int[] { 4, 2, 9, 6, 1, 3, -2, 10, 3, 0, 9, 7, 3 }));
+        }
+
+        public static int MinMissPos(int[] arr)
+        {
+            arr = arr.Where(i => i > 0).Distinct().ToArray();
+            for (int i = 1; i <= arr.Length; i++)
+            {
+                if (!arr.Contains(i)) return i;
+            }
+            return arr.Length + 1;
+        }
+
+
+
+    //Break Point
+
+            static void Main(string[] args)
+        {
+            Console.WriteLine(BreakPoint(159780));
+            Console.WriteLine(BreakPoint(112));
+            Console.WriteLine(BreakPoint(1034));
+            Console.WriteLine(BreakPoint(343));
+        }
+
+        public static bool BreakPoint(int num)
+        {
+            var str = num.ToString();
+            var arr = str.Select(c => Convert.ToInt32(Char.GetNumericValue(c))).ToArray();
+            int left = 0;
+            int right = arr.Sum();
+            foreach (int digit in arr)
+            {
+                left += digit;
+                right -= digit;
+                if (left == right) return true;
+            }
+            return false;
+        }
+
+
+
+    //Mangle the String
+
+     static void Main(string[] args)
+        {
+            Console.WriteLine(Mangle("Fun times!"));
+            Console.WriteLine(Mangle("The quick brown fox."));
+            Console.WriteLine(Mangle("Omega"));
+            Console.WriteLine(Mangle("Hello"));
+        }
+
+        public static string Mangle(string str)
+        {
+            string textToRet = "";
+
+            for (int i = 0; i < str.Length; i++)
+            {
+                int charValue = (int)str[i];
+
+                if (charValue == 90)
+                    charValue = 65;
+                else if (charValue == 122)
+                    charValue = 97;
+                else
+                {
+                    if ((charValue >= 97 && charValue <= 122) || (charValue >= 65 && charValue <= 90))
+                        charValue++;
+                    else
+                        charValue = charValue;
+                }
+                textToRet += (char)charValue;
+            }
+
+
+            string textToActRet = "";
+            for (int i = 0; i < textToRet.Length; i++)
+            {
+                if (textToRet[i] == 'a' || textToRet[i] == 'e' || textToRet[i] == 'o' || textToRet[i] == 'i' || textToRet[i] == 'u')
+                    textToActRet += char.ToUpper(textToRet[i]);
+                else
+
+                    textToActRet += textToRet[i];
+            }
+
+            return textToActRet;
+        }
+
+
+
+    //Briefcase Lock
+
+     static void Main(string[] args)
+        {
+            Console.WriteLine(MinTurns("4089", "5672"));
+            Console.WriteLine(MinTurns("1732", "4444"));
+            Console.WriteLine(MinTurns("7109", "2332"));
+            Console.WriteLine(MinTurns("2391", "4984"));
+        }
+
+        public static int MinTurns(string current, string target)
+        {
+            int total = 0;
+
+            for (int index = 0; index < 4; index += 1)
+            {
+                int largest = Math.Max(current[index], target[index]);
+                int smallest = Math.Min(current[index], target[index]);
+
+                total += Math.Min(
+                        Math.Abs(largest - smallest),
+                        Math.Abs(largest - (smallest + 10))
+                  );
+            }
+
+            return total;
+        }
+
+
+
+    //12 vs 24 Hours
+
+     static void Main(string[] args)
+        {
+            Console.WriteLine(ConvertTime("12:00 am"));
+            Console.WriteLine(ConvertTime("6:20 pm"));
+            Console.WriteLine(ConvertTime("21:00"));
+            Console.WriteLine(ConvertTime("7:30"));
+        }
+
+		public static string ConvertTime(string time)
+		{
+			bool hour12 = time.Contains("m");
+			string[] timeParts = time.Split(':');
+			int hours = int.Parse(timeParts[0]);
+			string minutes = timeParts[1].Substring(0, 2);
+			string morningEvening = time.Substring(time.Length - 2, 2);
+			string result = "";
+			if (hour12)
+			{
+				if (morningEvening == "pm")
+					hours += 12;
+				else
+					hours -= 12;
+				result = hours + ":" + minutes;
+			}
+			else
+			{
+				if (hours > 12)
+				{
+					hours -= 12;
+					morningEvening = "pm";
+				}
+				else
+					morningEvening = "am";
+				result = hours + ":" + minutes + " " + morningEvening;
+			}
+			return result;
+
+
+
+    //Is One String in the Other?
+
+            static void Main(string[] args)
+        {
+            Console.WriteLine(Overlap("ABC", "Ican'tsingmyABC"));
+            Console.WriteLine(Overlap("abc", "Ican'tsingmyABC"));
+            Console.WriteLine(Overlap("Ican'tsingmyABC", "abc"));
+            Console.WriteLine(Overlap("hello world", "hello"));
+        }
+
+		private static void swap(ref string s1, ref string s2)
+		{
+			string temp = s2;
+			s2 = s1;
+			s1 = temp;
+		}
+		public static bool Overlap(string s1, string s2)
+		{
+			if (s1.Length < s2.Length) swap(ref s1, ref s2);
+			if (s2.Count(c => c == '*') > s1.Count(c => c == '*')) return true;
+			return s1.Replace(new string('*', s2.Length), s2).Substring(s1.Length - s2.Length).ToLower() == s2.ToLower();
+		}
+
+
+
+    //Possible Palindrome
+
+            static void Main(string[] args)
+        {
+            Console.WriteLine(PossiblePalindrome("acabbaa"));
+            Console.WriteLine(PossiblePalindrome("aacbdbc"));
+            Console.WriteLine(PossiblePalindrome("aacbdb"));
+            Console.WriteLine(PossiblePalindrome("abacbb"));
+        }
+
+		public static bool PossiblePalindrome(string str)
+		{
+			int singleCharCount = str.Count(c => str.Count(x => x == c) == 1);
+
+			if (str.Length % 2 == 0 && singleCharCount > 0)
+			{
+				return false;
+			}
+
+			if (str.Length % 2 != 0 && singleCharCount > 1)
+			{
+				return false;
+			}
+
+			return true;
+		}
+
+
+
+    //Wrap Around
+
+    static void Main(string[] args)
+        {
+            Console.WriteLine(WrapAround("Hello, World!", 2));
+            Console.WriteLine(WrapAround("From what I gathered", -4));
+            Console.WriteLine(WrapAround("Excelsior", 30));
+            Console.WriteLine(WrapAround("Nonscience", -116));
+        }
+
+        public static string WrapAround(string input, int offset)
+        {
+            if (offset >= 0)
+            {
+                int start = offset % input.Length;
+                return input.Substring(start) + input.Substring(0, start);
+            }
+            else
+            {
+                int start = -offset % input.Length;
+                return input.Substring(input.Length - start) + input.Substring(0, input.Length - start);
+            }
+        }
+
+
+
+    //Rolling Cipher
+
+            static void Main(string[] args)
+        {
+            Console.WriteLine(RollingCipher("abcd", 1));
+            Console.WriteLine(RollingCipher("abcd", -1));
+            Console.WriteLine(RollingCipher("abcd", 3));
+            Console.WriteLine(RollingCipher("abcd", 26));
+        }
+
+        public static string RollingCipher(string str, int n)
+        {
+            Func<char, char> shiftChar = x =>
+            {
+                int newVal = (x - 97 + n) % 26;
+                int shifted = (newVal < 0) ? 26 + newVal : newVal;
+                return (char)(shifted + 97);
+            };
+            return string.Join("", str.Select(shiftChar));
+        }
+
+
+
      */
 
 }

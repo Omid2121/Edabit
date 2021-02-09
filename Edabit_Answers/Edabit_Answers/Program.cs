@@ -13,28 +13,21 @@ namespace Edabit_Answers
     {
         static void Main(string[] args)
         {
-            Console.WriteLine(Moran(132));
-            Console.WriteLine(Moran(133));
-            Console.WriteLine(Moran(134));
-            Console.WriteLine(Moran(135));
+            Console.WriteLine(RollingCipher("abcd", 1));
+            Console.WriteLine(RollingCipher("abcd", -1));
+            Console.WriteLine(RollingCipher("abcd", 3));
+            Console.WriteLine(RollingCipher("abcd", 26));
         }
 
-        public static string Moran(int n)
+        public static string RollingCipher(string str, int n)
         {
-            int sum = n.ToString().Select(x => int.Parse(x.ToString())).Sum();
-            if (IsPrime(n / sum)) return "M";
-            if (n % sum == 0) return "H";
-            return "Neither";
-        }
-        public static bool IsPrime(int n)
-        {
-            if (n <= 1) return false;
-            if (n == 2) return true;
-            if (n % 2 == 0) return false;
-            var boundary = (int)Math.Floor(Math.Sqrt(n));
-            for (int i = 3; i <= boundary; i += 2)
-                if (n % i == 0) return false;
-            return true;
+            Func<char, char> shiftChar = x =>
+            {
+                int newVal = (x - 97 + n) % 26;
+                int shifted = (newVal < 0) ? 26 + newVal : newVal;
+                return (char)(shifted + 97);
+            };
+            return string.Join("", str.Select(shiftChar));
         }
     }
 }
