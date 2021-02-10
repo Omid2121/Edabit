@@ -13,23 +13,19 @@ namespace Edabit_Answers
     {
         static void Main(string[] args)
         {
-            Console.WriteLine(RollingCipher("abcd", 1));
-            Console.WriteLine(RollingCipher("abcd", -1));
-            Console.WriteLine(RollingCipher("abcd", 3));
-            Console.WriteLine(RollingCipher("abcd", 26));
-        }
+			Console.WriteLine(SmallestTransform(399));
+			Console.WriteLine(SmallestTransform(1234));
+			Console.WriteLine(SmallestTransform(153));
+			Console.WriteLine(SmallestTransform(7777));
+		}
 
-        public static string RollingCipher(string str, int n)
-        {
-            Func<char, char> shiftChar = x =>
-            {
-                int newVal = (x - 97 + n) % 26;
-                int shifted = (newVal < 0) ? 26 + newVal : newVal;
-                return (char)(shifted + 97);
-            };
-            return string.Join("", str.Select(shiftChar));
-        }
-    }
+		public static int SmallestTransform(int num)
+		{
+			var digits = num.ToString().Select(c => Convert.ToInt32(c)).ToList();
+
+			return digits.Distinct().Select(c => digits.Select(d => Math.Abs(d - c)).Sum()).Min();
+		}
+	}
 }
 
 

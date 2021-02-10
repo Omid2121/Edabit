@@ -2115,6 +2115,157 @@ namespace Edabit_Answers
 
 
 
+    //Encode Morse
+
+            static void Main(string[] args)
+        {
+            Console.WriteLine(FirstIndex("68 65 6c 6c 6f 20 77 6f 72 6c 64", "world"));
+            Console.WriteLine(FirstIndex("47 6f 6f 64 62 79 65 20 77 6f 72 6c 64", "world"));
+            Console.WriteLine(FirstIndex("42 6f 72 65 64 20 77 6f 72 6c 64", "Bored"));
+            Console.WriteLine(FirstIndex("a3 24 25 2d 2d 2d a3 24 20 77 6f 72 6c 64 2d 2d 2d", "world"));
+        }
+
+        public static int FirstIndex(string hexString, string word)
+        {
+            string[] hex = hexString.Split(' ');
+            for (int i = 0; i < hex.Length; i++)
+            {
+                if (word[0] == (char)Convert.ToInt32(hex[i], 16))
+                {
+                    return i;
+                }
+            }
+            return 0;
+        }
+
+
+
+    //Needle in a Hex String
+
+            static void Main(string[] args)
+        {
+            Console.WriteLine(FirstIndex("68 65 6c 6c 6f 20 77 6f 72 6c 64", "world"));
+            Console.WriteLine(FirstIndex("47 6f 6f 64 62 79 65 20 77 6f 72 6c 64", "world"));
+            Console.WriteLine(FirstIndex("42 6f 72 65 64 20 77 6f 72 6c 64", "Bored"));
+            Console.WriteLine(FirstIndex("a3 24 25 2d 2d 2d a3 24 20 77 6f 72 6c 64 2d 2d 2d", "world"));
+        }
+
+        public static int FirstIndex(string hexString, string word)
+        {
+            string[] hex = hexString.Split(' ');
+            for (int i = 0; i < hex.Length; i++)
+            {
+                if (word[0] == (char)Convert.ToInt32(hex[i], 16))
+                {
+                    return i;
+                }
+            }
+            return 0;
+        }
+
+
+
+    //Contact List
+
+            static void Main(string[] args)
+        {
+            Console.WriteLine(SortContacts(new string[] { "John Locke", "Thomas Aquinas", "David Hume", "Rene Descartes" }, "ASC"));
+            Console.WriteLine(SortContacts(new string[] { "Paul Erdos", "Leonhard Euler", "Carl Gauss" }, "DESC"));
+            Console.WriteLine(SortContacts(new string[] { "Michael Phelps", "Jesse Owens", "Michael Jordan", "Usain Bolt" }, "DESC"));
+            Console.WriteLine(SortContacts(new string[] { "Al Gore", "Barack Obama" }, "ASC"));
+        }
+
+		public static string[] SortContacts(string[] names, string sort)
+		{
+			if (names == null)
+				return new string[0];
+
+			var sorted = names.OrderBy(x => x.Split(' ')[1]);
+
+			if (sort == "ASC")
+				return sorted.ToArray();
+			else
+				return sorted.Reverse().ToArray();
+		}
+
+
+
+    //Palindrome Sequence
+
+            static void Main(string[] args)
+        {
+			Console.WriteLine(PalSeq(4884));
+			Console.WriteLine(PalSeq(1));
+			Console.WriteLine(PalSeq(11));
+			Console.WriteLine(PalSeq(3113));
+		}
+
+		static int Reverse(int num)
+		{
+			return int.Parse(new string(num.ToString().ToCharArray().Reverse().ToArray()));
+		}
+
+		public static int[] PalSeq(int n)
+		{
+			if (n > 9)
+			{
+				for (var seed = 10; seed <= n; seed++)
+				{
+					int steps = 0, seq = seed;
+					while (seq < n && seq != Reverse(seq))
+					{
+						seq += Reverse(seq);
+						steps++;
+					}
+					if (seq == n) return new int[] { seed, steps };
+				}
+			}
+			return new int[] { n, 0 };
+		}
+
+
+
+    //Maximum Occurrence
+
+            static void Main(string[] args)
+        {
+			Console.WriteLine(MaxOccur("Computer Science"));
+			Console.WriteLine(MaxOccur("Edabit"));
+			Console.WriteLine(MaxOccur("system admin"));
+			Console.WriteLine(MaxOccur("the quick brown fox jumps over the lazy dog"));
+		}
+
+		public static string MaxOccur(string txt)
+		{
+			var groups = txt.ToCharArray().OrderBy(c => c).GroupBy(c => c);
+			var max = groups.Max(g => g.Count());
+			return max > 1 ? string.Join(", ", groups.Where(g => g.Count() == max).Select(g => g.Key.ToString()).ToArray()) : "No Repetition";
+		}
+
+
+
+    //Smallest Transform
+
+            static void Main(string[] args)
+        {
+			Console.WriteLine(SmallestTransform(399));
+			Console.WriteLine(SmallestTransform(1234));
+			Console.WriteLine(SmallestTransform(153));
+			Console.WriteLine(SmallestTransform(7777));
+		}
+
+		public static int SmallestTransform(int num)
+		{
+			var digits = num.ToString().Select(c => Convert.ToInt32(c)).ToList();
+
+			return digits.Distinct().Select(c => digits.Select(d => Math.Abs(d - c)).Sum()).Min();
+		}
+
+
+
+
+
+
      */
 
 }
