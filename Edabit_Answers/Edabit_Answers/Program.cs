@@ -11,19 +11,41 @@ namespace Edabit_Answers
 {
     class Program
     {
-        static void Main(string[] args)
-        {
-			Console.WriteLine(SmallestTransform(399));
-			Console.WriteLine(SmallestTransform(1234));
-			Console.WriteLine(SmallestTransform(153));
-			Console.WriteLine(SmallestTransform(7777));
+		static void Main(string[] args)
+		{
+			Console.WriteLine(Permutations("AB"));
+			Console.WriteLine(Permutations("CD"));
+			Console.WriteLine(Permutations("EF"));
+			Console.WriteLine(Permutations("NOT"));
 		}
 
-		public static int SmallestTransform(int num)
+		public static string Permutations(string s)
 		{
-			var digits = num.ToString().Select(c => Convert.ToInt32(c)).ToList();
+			if (s.Length == 2)
+			{
+				char[] array = s.ToCharArray();
+				Array.Reverse(array);
+				return s + " " + new string(array);
+			}
+			else
+			{
+				string element = s.Substring(0, 1);
+				string substring = s.Remove(0, 1);
+				string[] permuated = Permutations(substring).Split(' ');
+				string newString = "";
+				foreach (string pattern in permuated)
+				{
+					for (int i = 0; i <= pattern.Length; i++)
+					{
+						newString = newString + pattern.Insert(i, element) + " ";
+					}
+				}
+				string[] tempArray = newString.Remove(newString.Length - 1, 1).Split(' ');
+				Array.Sort(tempArray);
+				newString = String.Join(" ", tempArray);
+				return newString;
+			}
 
-			return digits.Distinct().Select(c => digits.Select(d => Math.Abs(d - c)).Sum()).Min();
 		}
 	}
 }

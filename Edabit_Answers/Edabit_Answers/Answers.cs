@@ -2263,6 +2263,234 @@ namespace Edabit_Answers
 
 
 
+    //Working 9 to 5
+
+            static void Main(string[] args)
+        {
+			Console.WriteLine(OverTime(new[] { 9, 17, 30, 1.5 }));
+			Console.WriteLine(OverTime(new double[] { 9, 18, 40, 2 }));
+
+		}
+
+		public static string OverTime(double[] arr)
+		{
+			var normalHoursPay = Math.Max(0, Math.Min(17, arr[1]) - arr[0]) * arr[2];
+			var overtimeHoursPay = Math.Max(arr[1] - Math.Max(17, arr[0]), 0) * arr[2] * arr[3];
+			return $"${normalHoursPay + overtimeHoursPay:0.00}";
+		}
+
+
+
+    //Complete the Word
+
+            static void Main(string[] args)
+        {
+			Console.WriteLine(CanComplete("butl", "beautiful"));
+			Console.WriteLine(CanComplete("butlz", "beautiful"));
+			Console.WriteLine(CanComplete("tulb", "beautiful"));
+			Console.WriteLine(CanComplete("bbutl", "beautiful"));
+		}
+
+        public static bool CanComplete(string initial, string word)
+        {
+            int length = word.Length;
+            var startIndex = 0;
+            for (int i = 0; i < initial.Length; i++)
+            {
+                if (!word.Contains(initial[i].ToString())) return false;
+                var index = word.IndexOf(initial[i].ToString(), startIndex);
+                if (index == -1) return false;
+                startIndex = index;
+                word = word.Remove(index, 1);
+            }
+            return word.Length == length - initial.Length;
+        }
+
+
+
+    //IPv4 Validation
+
+
+            static void Main(string[] args)
+        {
+			Console.WriteLine(IsValidIP("1.2.3.4"));
+			Console.WriteLine(IsValidIP("1.2.3"));
+			Console.WriteLine(IsValidIP("1.2.3.4.5"));
+			Console.WriteLine(IsValidIP("123.45.67.89"));
+		}
+
+        public static bool IsValidIP(string IP)
+        {
+            string[] nums = IP.Split('.');
+
+            if (nums.Length != 4)
+                return false;
+
+
+            string digits = "0123456789";
+
+            for (int i = 0; i < nums.Length; i++)
+            {
+                for (int j = 0; j < nums[i].Length; j++)
+                {
+                    if (i != 0 && j == 0 && nums[i][j] == '0')
+                        return false;
+
+                    if (i == 3 && j == nums[i].Length - 1 && nums[i][j] == '0')
+                        return false;
+
+                    if (!digits.Contains(nums[i][j].ToString()))
+                        return false;
+                }
+            }
+            return true;
+        }
+
+
+
+    //Knights on a Board
+
+            static void Main(string[] args)
+        {
+			Console.WriteLine(CannotCapture(new int[,] {
+					{ 0, 0, 0, 1, 0, 0, 0, 0 },
+					{ 0, 0, 0, 0, 0, 0, 0, 0 },
+					{ 0, 1, 0, 0, 0, 1, 0, 0 },
+					{ 0, 0, 0, 0, 1, 0, 1, 0 },
+					{ 0, 1, 0, 0, 0, 1, 0, 0 },
+					{ 0, 0, 0, 0, 0, 0, 0, 0 },
+					{ 0, 1, 0, 0, 0, 0, 0, 1 },
+					{ 0, 0, 0, 0, 1, 0, 0, 0 }
+			}));
+
+		}
+
+		public static bool CannotCapture(int[,] board)
+		{
+			var moves = new List<int[]>() {
+						new int[] { 2, 1 },
+						new int[] { 1, 2 },
+						new int[] { -2, 1 },
+						new int[] { -1, 2 },
+						new int[] { -2, 1 },
+						new int[] { -1, 2 },
+						new int[] { -2, -1 },
+						new int[] { -1, -2 }
+				};
+
+			Func<int, int, bool> cancapture = (r, c) =>
+			{
+				return moves.Any(d => (r + d[0]) >= 0 && (r + d[0]) < 8 && (c + d[1]) >= 0 && (c + d[1]) < 8 && board[r + d[0], c + d[1]] == 1);
+			};
+
+			for (int i = 0; i < 8; i++)
+			{
+				for (int j = 0; j < 8; j++)
+				{
+					if (board[i, j] == 1 && cancapture(i, j))
+					{
+						return false;
+					}
+				}
+			}
+			return true;
+		}
+
+
+
+    //Simplified Fractions
+
+    static void Main(string[] args)
+        {
+			Console.WriteLine(Simplify("4/6"));
+			Console.WriteLine(Simplify("10/11"));
+			Console.WriteLine(Simplify("100/400"));
+			Console.WriteLine(Simplify("8/4"));
+		}
+
+		public static string Simplify(string str)
+		{
+			string[] nums = str.Split('/');
+			int dividend = int.Parse(nums[0]);
+			int divisor = int.Parse(nums[1]);
+
+			if (dividend % divisor == 0)
+				return (dividend / divisor).ToString();
+			else
+			{
+				for (int i = 2; i <= divisor; i++)
+				{
+					if (dividend % i == 0 && divisor % i == 0)
+					{
+						dividend = dividend / i;
+						divisor = divisor / i;
+					}
+				}
+			}
+			return dividend.ToString() + "/" + divisor.ToString();
+		}
+
+
+
+    //Diamond Sum
+
+    static void Main(string[] args)
+        {
+			Console.WriteLine(DiamondSum(1));
+			Console.WriteLine(DiamondSum(3));
+			Console.WriteLine(DiamondSum(5));
+			Console.WriteLine(DiamondSum(7));
+		}
+
+		public static int DiamondSum(int n)
+		{
+			if (n == 1)
+			{
+				return 1;
+			}
+			return n * n * n - (((n - 1) * n) + 1);
+		}
+
+
+
+    //Generate All String Character Permutations
+
+    static void Main(string[] args)
+        {
+			Console.WriteLine(Permutations("AB"));
+			Console.WriteLine(Permutations("CD"));
+			Console.WriteLine(Permutations("EF"));
+			Console.WriteLine(Permutations("NOT"));
+		}
+
+		public static string Permutations(string s)
+		{
+			if (s.Length == 2)
+			{
+				char[] array = s.ToCharArray();
+				Array.Reverse(array);
+				return s + " " + new string(array);
+			}
+			else
+			{
+				string element = s.Substring(0, 1);
+				string substring = s.Remove(0, 1);
+				string[] permuated = Permutations(substring).Split(' ');
+				string newString = "";
+				foreach (string pattern in permuated)
+				{
+					for (int i = 0; i <= pattern.Length; i++)
+					{
+						newString = newString + pattern.Insert(i, element) + " ";
+					}
+				}
+				string[] tempArray = newString.Remove(newString.Length - 1, 1).Split(' ');
+				Array.Sort(tempArray);
+				newString = String.Join(" ", tempArray);
+				return newString;
+			}
+
+		}
 
 
 
