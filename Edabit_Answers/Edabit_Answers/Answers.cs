@@ -2494,6 +2494,117 @@ namespace Edabit_Answers
 
 
 
+    //Find an Anagram of a String in Another String
+
+    static void Main(string[] args)
+		{
+			Console.WriteLine(AnagramStrStr("car", "race"));
+			Console.WriteLine(AnagramStrStr("nod", "done"));
+			Console.WriteLine(AnagramStrStr("bag", "grab"));
+			Console.WriteLine(AnagramStrStr("roast", "pastoral"));
+		}
+
+        public static bool AnagramStrStr(string needle, string haystack)
+        {
+            var res = new List<int>();
+
+            foreach (var letter in needle)
+            {
+                var index = haystack.IndexOf(letter);
+                res.Add(index);
+            }
+
+            res = res.OrderBy(x => x).ToList();
+
+            for (int i = 0; i < res.Count - 1; i++)
+            {
+                if (res[i] + 1 != res[i + 1])
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+
+
+    //Password Validation
+
+    static void Main(string[] args)
+		{
+			Console.WriteLine(ValidatePassword("P1zz@"));
+			Console.WriteLine(ValidatePassword("iLoveYou"));
+			Console.WriteLine(ValidatePassword("Fhg93@"));
+			Console.WriteLine(ValidatePassword("Pè7$areLove"));
+		}
+
+        public static bool ValidatePassword(string str)
+        {
+            int total = 0;
+            if (str.Length > 5 && str.Length < 25)
+            {
+                char[] charArray = new char[] { '!', '@', '#', '$', '%', '^', '&', '*', '(', ')', '+', '=', '_', '-', '{', '}', '[', ']', ':', ';', '”', '\'', '?', '<', '>', ',', '.' };
+                for (int i = 1; i < str.Length; i++)
+                {
+                    if (charArray.Any(x => x == str[i]) && str.Any(x => char.IsLower(x)) && str.Any(x => char.IsUpper(x)) && str.Any(x => char.IsNumber(x)))
+                    {
+                        total++;
+                        break;
+                    }
+                    else if (Regex.IsMatch(str, @"(.)\1\1") || str.Contains("è"))
+                        return false;
+                }
+            }
+            return total == 1;
+        }
+
+
+
+    //Area of Overlapping Rectangles
+
+    		static void Main(string[] args)
+		{
+			Console.WriteLine(OverlappingRectangles(new int[] { 2, 1, 3, 4 }, new int[] { 3, 2, 2, 5 }));
+			Console.WriteLine(OverlappingRectangles(new int[] { 2, -9, 11, 5 }, new int[] { 5, -11, 2, 9 }));
+			Console.WriteLine(OverlappingRectangles(new int[] { -8, -7, 4, 7 }, new int[] { -5, -9, 4, 7 }));
+			Console.WriteLine(OverlappingRectangles(new int[] { -11, 2, 10, 4 }, new int[] { -8, 2, 4, 7 }));
+		}
+
+		public static int OverlappingRectangles(int[] rect1, int[] rect2)
+		{
+			int x = Math.Min(rect1[0] + rect1[2], rect2[0] + rect2[2]) - Math.Max(rect1[0], rect2[0]);
+			int y = Math.Min(rect1[1] + rect1[3], rect2[1] + +rect2[3]) - Math.Max(rect1[1], rect2[1]);
+			return x > 0 && y > 0 ? x * y : 0;
+		}
+
+
+
+    //String Incrementer
+
+    		static void Main(string[] args)
+		{
+			Console.WriteLine(IncrementString("foo"));
+			Console.WriteLine(IncrementString("foobar0009"));
+			Console.WriteLine(IncrementString("foo099"));
+			Console.WriteLine(IncrementString("foo9"));
+		}
+
+        public static string IncrementString(string txt)
+        {
+            int i = 0;
+            int n = txt.Length;
+            while (char.IsNumber(txt[n - 1 - i]))
+                i++;
+            if (i == 0)
+                return txt + "1";
+            string front_txt = txt.Substring(0, n - i);
+            int num = int.Parse(txt.Substring(n - i)) + 1;
+            string zeros = (i - num.ToString().Length) > 0 ? new String('0', (i - num.ToString().Length)) : "";
+            return front_txt + zeros + num.ToString();
+        }
+
+
      */
 
 }
