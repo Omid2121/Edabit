@@ -13,26 +13,47 @@ namespace Edabit_Answers
     {
         static void Main(string[] args)
         {
-            Console.WriteLine(IncrementString("foo"));
-            Console.WriteLine(IncrementString("foobar0009"));
-            Console.WriteLine(IncrementString("foo099"));
-            Console.WriteLine(IncrementString("foo9"));
+            Console.WriteLine(TapCode("greeting"));
+            Console.WriteLine(TapCode("confrontation"));
+            Console.WriteLine(TapCode("leadership"));
+            Console.WriteLine(TapCode(".... .... ... .... ... ... .. .... .. .. .. ... .... ...."));
+            Console.WriteLine(TapCode("... . ... .... ..... .... . . ... . .... .... ..... ...."));
         }
 
-        public static string IncrementString(string txt)
-        {
-            int i = 0;
-            int n = txt.Length;
-            while (char.IsNumber(txt[n - 1 - i]))
-                i++;
-            if (i == 0)
-                return txt + "1";
-            string front_txt = txt.Substring(0, n - i);
-            int num = int.Parse(txt.Substring(n - i)) + 1;
-            string zeros = (i - num.ToString().Length) > 0 ? new String('0', (i - num.ToString().Length)) : "";
-            return front_txt + zeros + num.ToString();
-        }
-    }
+		public static string TapCode(string text)
+		{
+			string res = "";
+			if (text[0] != '.')
+			{
+				text = text.Replace('k', 'c');
+				for (int i = 0; i < text.Length; i++)
+				{
+					int n = text[i] - 'a' + (text[i] > 'k' ? 0 : 1);
+					res += new String('.', n / 5 + (n % 5 == 0 ? 0 : 1));
+					res += " ";
+					res += new String('.', (n % 5 == 0 ? 5 : n % 5));
+					res += (i < text.Length - 1) ? " " : "";
+				}
+				return res;
+			}
+			else
+			{
+				string[] parts = text.Split(' ');
+				for (int i = 0; i < parts.Length; i += 2)
+				{
+					int n = ((parts[i].Length - 1) * 5
+									 + parts[i + 1].Length
+									 + (int)'a');
+					if (n < (int)'k')
+					{
+						n -= 1;
+					}
+					res += (char)n;
+				}
+				return res;
+			}
+		}
+	}
 }
 
 

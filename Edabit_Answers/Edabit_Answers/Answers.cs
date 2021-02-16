@@ -2605,6 +2605,292 @@ namespace Edabit_Answers
         }
 
 
+
+    //Reverse the String (with a catch)
+
+     static void Main(string[] args)
+        {
+            Console.WriteLine(SpecialReverseStr("foo"));
+            Console.WriteLine(SpecialReverseStr("Edabit"));
+            Console.WriteLine(SpecialReverseStr("UPPER lower"));
+            Console.WriteLine(SpecialReverseStr("1 23 456"));
+        }
+
+		public static string SpecialReverseStr(string txt)
+		{
+			StringBuilder result = new StringBuilder();
+
+			for (int index = txt.Length - 1; index >= 0; index--)
+			{
+				if (txt[index] != ' ')
+				{
+					result.Append(char.ToLower(txt[index]));
+				}
+			}
+
+			for (int index = 0; index < txt.Length; index++)
+			{
+				if (char.IsUpper(txt[index]))
+				{
+					result[index] = char.ToUpper(result[index]);
+				}
+
+				if (txt[index] == ' ')
+				{
+					result.Insert(index, " ");
+				}
+			}
+			return result.ToString();
+		}
+
+
+
+    //Valid Name
+
+            static void Main(string[] args)
+        {
+            Console.WriteLine(ValidName("H. Wells"));
+            Console.WriteLine(ValidName("H. G. Wells"));
+            Console.WriteLine(ValidName("Herbert G. Wells"));
+            Console.WriteLine(ValidName("Herbert"));
+        }
+
+        public static bool ValidName(string name)
+        {
+            var splittedName = name.Split(' ');
+
+            if (splittedName.All(x => char.IsUpper(x[0])) && splittedName.Count() >= 2)
+            {
+                if (!splittedName.Last().Contains('.') && splittedName.Last().Length > 2)
+                {
+                    if (splittedName.Length == 2 && splittedName[0].Length == 2 && splittedName[0].Last() == '.')
+                    {
+                        return true;
+                    }
+                    else if (splittedName.Length == 3)
+                    {
+                        if (splittedName[0].Length == 2 && splittedName[0].Last() == '.' && splittedName[1].Length == 2 && splittedName[1].Last() == '.')
+                        {
+                            return true;
+                        }
+                        else if (splittedName[0].Length > 2 && splittedName[0].Last() != '.' || splittedName.All(x => x.Length > 2) && splittedName.All(x => !x.Contains('.')))
+                        {
+                            return true;
+                        }
+
+                    }
+                }
+            }
+
+            return false;
+        }
+
+
+
+    //Sort the String
+
+            static void Main(string[] args)
+        {
+            Console.WriteLine(sorting("eA2a1E"));
+            Console.WriteLine(sorting("Re4r"));
+            Console.WriteLine(sorting("6jnM31Q"));
+            Console.WriteLine(sorting("846ZIbo"));
+        }
+
+        public static string sorting(string str)
+        {
+            string output = "";
+            string mycharset = "aAbBcCdDeEfFgGhHiIjJkKlLmMnNoOpPqQrRsStTuUvVwWxXyYzZ0123456789";
+
+            List<int> listIndex = new List<int>();
+
+            for (int i = 0; i < str.Length; i++)
+            {
+                char c = str[i];
+                int k = 0;
+
+                if (mycharset.Contains(c.ToString()))
+                {
+                    k = mycharset.IndexOf(c);
+                }
+                listIndex.Add(k);
+            }
+
+            listIndex.Sort();
+
+            for (int i = 0; i < listIndex.Count; i++)
+                output += mycharset[listIndex[i]].ToString();
+
+            return output;
+        }
+
+
+
+    //Same Letter Patterns
+
+            static void Main(string[] args)
+        {
+            Console.WriteLine(SamePattern("ABAB", "CDCD"));
+            Console.WriteLine(SamePattern("ABCBA", "BCDCB"));
+            Console.WriteLine(SamePattern("FFGG", "CDCD"));
+            Console.WriteLine(SamePattern("FFFF", "ABCD"));
+        }
+
+        public static bool SamePattern(string str1, string str2)
+        {
+            if (str1.Length != str2.Length)
+                return false;
+            List<int> pos1 = new List<int>();
+            List<int> pos2 = new List<int>();
+            for (int i = 0; i < str1.Length; i++)
+                for (int j = 0; j < str1.Length; j++)
+                {
+                    if (str1[i] == str1[j])
+                        pos1.Add(j);
+                    if (str2[i] == str2[j])
+                        pos2.Add(j);
+                }
+            if (pos1.Count != pos2.Count)
+                return false;
+            for (int i = 0; i < pos1.Count; i++)
+                if (pos1[i] != pos2[i])
+                    return false;
+            return true;
+        }
+
+
+
+    //Longest Alternating Substring
+
+            static void Main(string[] args)
+        {
+            Console.WriteLine(LongestSubstring("225424272163254474441338664823"));
+            Console.WriteLine(LongestSubstring("594127169973391692147228678476"));
+            Console.WriteLine(LongestSubstring("721449827599186159274227324466"));
+            Console.WriteLine(LongestSubstring("844929328912985315632725682153"));
+        }
+
+        public static string LongestSubstring(string digits)
+        {
+            List<string> l = new List<string>();
+            int s = -1, e = -1;
+            bool control = false;
+            for (int i = 0; i < digits.Length - 1; i++)
+            {
+                if (!control)
+                {
+                    if (int.Parse(digits[i].ToString()) % 2 != int.Parse(digits[i + 1].ToString()) % 2)
+                    {
+                        s = i;
+                        control = true;
+                    }
+                }
+                else
+                {
+                    if (int.Parse(digits[i].ToString()) % 2 == int.Parse(digits[i + 1].ToString()) % 2)
+                    {
+                        e = i;
+                        control = false;
+                    }
+                }
+                if (s != -1 && e != -1)
+                {
+                    l.Add(digits.Substring(s, e - s + 1));
+                    s = -1;
+                    e = -1;
+                }
+                else if (s != -1 && e == -1 && i + 1 == digits.Length - 1)
+                    l.Add(digits.Substring(s, digits.Length - s));
+            }
+            return l.Aggregate(string.Empty, (x, y) => y.Length > x.Length ? y : x);
+        }
+
+
+
+    //Mountains or Valleys
+
+    static void Main(string[] args)
+        {
+            Console.WriteLine(LandscapeType(new int[] { 3, 4, 5, 4, 3 }));
+            Console.WriteLine(LandscapeType(new int[] { 9, 7, 3, 1, 2, 4 }));
+            Console.WriteLine(LandscapeType(new int[] { 9, 8, 9 }));
+            Console.WriteLine(LandscapeType(new int[] { 9, 8, 9, 8 }));
+        }
+
+        public static string LandscapeType(int[] arr)
+        {
+            int turns = 0;
+            bool first = arr[0] <= arr[1];
+            bool UP = arr[0] <= arr[1];
+            for (int i = 1; i < arr.Length - 1; i++)
+            {
+                if (arr[i] <= arr[i + 1] && !UP)
+                {
+                    UP = !UP;
+                    turns++;
+                }
+                if (arr[i] > arr[i + 1] && UP)
+                {
+                    UP = !UP;
+                    turns++;
+                }
+            }
+            if ((turns != 1) && !(turns == 2 && first))
+                return "neither";
+            if (first)
+                return "mountain";
+            else return "valley";
+        }
+
+
+
+    //Tap Code Translation
+
+    static void Main(string[] args)
+        {
+            Console.WriteLine(TapCode("greeting"));
+            Console.WriteLine(TapCode("confrontation"));
+            Console.WriteLine(TapCode("leadership"));
+            Console.WriteLine(TapCode(".... .... ... .... ... ... .. .... .. .. .. ... .... ...."));
+            Console.WriteLine(TapCode("... . ... .... ..... .... . . ... . .... .... ..... ...."));
+        }
+
+		public static string TapCode(string text)
+		{
+			string res = "";
+			if (text[0] != '.')
+			{
+				text = text.Replace('k', 'c');
+				for (int i = 0; i < text.Length; i++)
+				{
+					int n = text[i] - 'a' + (text[i] > 'k' ? 0 : 1);
+					res += new String('.', n / 5 + (n % 5 == 0 ? 0 : 1));
+					res += " ";
+					res += new String('.', (n % 5 == 0 ? 5 : n % 5));
+					res += (i < text.Length - 1) ? " " : "";
+				}
+				return res;
+			}
+			else
+			{
+				string[] parts = text.Split(' ');
+				for (int i = 0; i < parts.Length; i += 2)
+				{
+					int n = ((parts[i].Length - 1) * 5
+									 + parts[i + 1].Length
+									 + (int)'a');
+					if (n < (int)'k')
+					{
+						n -= 1;
+					}
+					res += (char)n;
+				}
+				return res;
+			}
+		}
+
+
+
      */
 
 }
