@@ -2891,6 +2891,216 @@ namespace Edabit_Answers
 
 
 
+    //Generate All Nonconsecutive Binary Strings
+
+
+            static void Main(string[] args)
+        {
+            Console.WriteLine(GenerateNonconsecutive(1));
+            Console.WriteLine(GenerateNonconsecutive(2));
+            Console.WriteLine(GenerateNonconsecutive(3));
+            Console.WriteLine(GenerateNonconsecutive(4));
+            Console.WriteLine(GenerateNonconsecutive(5));
+        }
+
+		public static string GenerateNonconsecutive(int len)
+		{
+			string res = "";
+			for (int i = 0; i < System.Math.Pow(2, len); i++)
+			{
+				string binary = Convert.ToString(i, 2).PadLeft(len, '0');
+				bool valid = true;
+				for (int j = 1; j < binary.Length; j++)
+				{
+					if (binary[j] == '1' && binary[j - 1] == '1')
+					{
+						valid = false;
+						break;
+					}
+				}
+				if (valid)
+				{
+					res += (res == "" ? "" : " ") + binary;
+				}
+			}
+			return res;
+		}
+
+
+
+    //Least Common Multiple
+
+            static void Main(string[] args)
+        {
+            Console.WriteLine(LCM(new int[] { 1 }));
+            Console.WriteLine(LCM(new int[] { 5, 5, 5 }));
+            Console.WriteLine(LCM(new int[] { 67, 34, 12, 3, 2 }));
+            Console.WriteLine(LCM(new int[] { 79, 18, 7, 3, 1 }));
+            Console.WriteLine(LCM(new int[] { 10, 20, 30, 40, 50 }));
+        }
+
+        public static int Gcd(int a, int b)
+        {
+            int tmp;
+            while (a > 0)
+            {
+                tmp = a;
+                a = b % a;
+                b = tmp;
+            }
+            return b;
+        }
+
+        public static int Lcm(int a, int b)
+        {
+            return a * b / Gcd(a, b);
+        }
+
+
+        public static int LCM(int[] nums)
+        {
+            int res = 1;
+            foreach (int i in nums)
+                res = Lcm(res, i);
+            return res;
+        }
+
+
+
+    //Paul Cipher
+
+            static void Main(string[] args)
+        {
+            Console.WriteLine(PaulCipher("muBas41r"));
+            Console.WriteLine(PaulCipher("A1rForce"));
+            Console.WriteLine(PaulCipher("p4K1St4n"));
+            Console.WriteLine(PaulCipher("MATT"));
+            Console.WriteLine(PaulCipher("He1lo"));
+        }
+
+		public static string PaulCipher(string txt)
+		{
+			char prev = '\0';
+			var code = txt.ToUpper().ToCharArray().Select(c => {
+				if (char.IsLetter(c))
+				{
+					var next = prev == 0 ? c : (char)((c + prev - 129) % 26 + 65);
+					prev = c;
+					c = next;
+				}
+				return c;
+			}).ToArray();
+			return new string(code);
+		}
+
+
+
+    //Ordering People in a Line
+
+            static void Main(string[] args)
+        {
+            Console.WriteLine(OrderPeople(5, 3, 15));
+            Console.WriteLine(OrderPeople(5, 3, 16));
+            Console.WriteLine(OrderPeople(4, 3, 5));
+            Console.WriteLine(OrderPeople(3, 3, 8));
+            Console.WriteLine(OrderPeople(4, 4, 15));
+        }
+
+		public static string OrderPeople(int rows, int columns, int people)
+		{
+			if (people > rows * columns)
+			{
+				return "overcrowded";
+			}
+			string result = "";
+			for (int i = 0; i < rows * columns; i++)
+			{
+				int row = i / columns;
+				int number = 0;
+				if (row % 2 == 0)
+				{
+					number = i + 1;
+				}
+				else
+				{
+					number = (((row + 1) * columns) - i % columns);
+				}
+				result += number > people ? "0" : number.ToString();
+				result += (i == rows * columns - 1) ?
+					""
+					: (i % columns == columns - 1 ? "\n" : ", ");
+			}
+			return result;
+		}
+
+
+
+    // *** English to Pig Latin Translator
+
+            static void Main(string[] args)
+        {
+            Console.WriteLine(TranslateWord("flag"));
+            Console.WriteLine(TranslateWord("Apple"));
+            Console.WriteLine(TranslateWord("button"));
+            Console.WriteLine(TranslateSentence("I like to eat honey waffles."));
+            Console.WriteLine(TranslateSentence("Do you think it is going to rain today?"));
+        }
+
+		public static string TranslateWord(string word)
+		{
+			if (string.IsNullOrEmpty(word)) return word;
+			if (!"aeiouAEIOU".Contains(word[0]))
+			{
+				var rm = new Regex("((?:(?![aeiou])[a-z])+)([aeiou]{1}[a-z]*)", RegexOptions.IgnoreCase).Match(word);
+				var rep = char.IsUpper(rm.Groups[1].Value[0])
+						? $"{char.ToUpper(rm.Groups[2].Value[0])}{rm.Groups[2].Value.Substring(1)}{rm.Groups[1].Value.ToLower()}"
+						: $"{rm.Groups[2]}{rm.Groups[1]}";
+
+				return $"{word.Substring(0, rm.Index)}{rep}ay{word.Substring(rm.Index + rm.Value.Length)}";
+			}
+			else
+				return new Regex("([a-z]+)", RegexOptions.IgnoreCase).Replace(word, "$1yay");
+		}
+
+		public static string TranslateSentence(string sentence)
+		{
+			return string.Join(" ", sentence.Split(' ').Select(TranslateWord));
+		}
+
+
+
+    //Track the Robot (Part 3)
+
+            static void Main(string[] args)
+        {
+            Console.WriteLine(TrackRobot(">>.."));
+            Console.WriteLine(TrackRobot("..<.<."));
+            Console.WriteLine(TrackRobot("..<<..>>..<<..>>.."));
+            Console.WriteLine(TrackRobot("<>>>><><<<><>>>><><<<><>>><>"));
+            Console.WriteLine(TrackRobot("...................................................................................................."));
+        }
+
+		public static int[] TrackRobot(string steps)
+		{
+			var pos = steps.ToCharArray().Aggregate(new int[] { 0, 0, 0 }, (arr, ch) => {
+				if (ch == '.')
+				{
+					if (arr[2] == 0) arr[0]++;
+					else if (arr[2] == 1) arr[1]++;
+					else if (arr[2] == 2) arr[0]--;
+					else arr[1]--;
+				}
+				else
+				{
+					arr[2] = (arr[2] + (ch == '<' ? 1 : 5)) % 4;
+				}
+				return arr;
+			});
+			return new int[] { pos[0], pos[1] };
+		}
+
+
+
      */
 
 }

@@ -13,47 +13,30 @@ namespace Edabit_Answers
     {
         static void Main(string[] args)
         {
-            Console.WriteLine(TapCode("greeting"));
-            Console.WriteLine(TapCode("confrontation"));
-            Console.WriteLine(TapCode("leadership"));
-            Console.WriteLine(TapCode(".... .... ... .... ... ... .. .... .. .. .. ... .... ...."));
-            Console.WriteLine(TapCode("... . ... .... ..... .... . . ... . .... .... ..... ...."));
+            Console.WriteLine(TrackRobot(">>.."));
+            Console.WriteLine(TrackRobot("..<.<."));
+            Console.WriteLine(TrackRobot("..<<..>>..<<..>>.."));
+            Console.WriteLine(TrackRobot("<>>>><><<<><>>>><><<<><>>><>"));
+            Console.WriteLine(TrackRobot("...................................................................................................."));
         }
 
-		public static string TapCode(string text)
+		public static int[] TrackRobot(string steps)
 		{
-			string res = "";
-			if (text[0] != '.')
-			{
-				text = text.Replace('k', 'c');
-				for (int i = 0; i < text.Length; i++)
+			var pos = steps.ToCharArray().Aggregate(new int[] { 0, 0, 0 }, (arr, ch) => {
+				if (ch == '.')
 				{
-					int n = text[i] - 'a' + (text[i] > 'k' ? 0 : 1);
-					res += new String('.', n / 5 + (n % 5 == 0 ? 0 : 1));
-					res += " ";
-					res += new String('.', (n % 5 == 0 ? 5 : n % 5));
-					res += (i < text.Length - 1) ? " " : "";
+					if (arr[2] == 0) arr[0]++;
+					else if (arr[2] == 1) arr[1]++;
+					else if (arr[2] == 2) arr[0]--;
+					else arr[1]--;
 				}
-				return res;
-			}
-			else
-			{
-				string[] parts = text.Split(' ');
-				for (int i = 0; i < parts.Length; i += 2)
+				else
 				{
-					int n = ((parts[i].Length - 1) * 5
-									 + parts[i + 1].Length
-									 + (int)'a');
-					if (n < (int)'k')
-					{
-						n -= 1;
-					}
-					res += (char)n;
+					arr[2] = (arr[2] + (ch == '<' ? 1 : 5)) % 4;
 				}
-				return res;
-			}
+				return arr;
+			});
+			return new int[] { pos[0], pos[1] };
 		}
 	}
 }
-
-
