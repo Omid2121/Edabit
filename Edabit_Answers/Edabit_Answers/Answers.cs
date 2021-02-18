@@ -3101,6 +3101,216 @@ namespace Edabit_Answers
 
 
 
+    //Breaking News!
+
+            static void Main(string[] args)
+        {
+            Console.WriteLine(NewsAtTen("edabit", 10));
+            Console.WriteLine(NewsAtTen("Hello", 5));
+            Console.WriteLine(NewsAtTen("google", 7));
+            Console.WriteLine(NewsAtTen("edabit", 10));
+        }
+
+        public static string[] NewsAtTen(string txt, int n)
+        {
+            var str = new String(' ', n) + txt + new String(' ', n);
+            return Enumerable.Range(0, txt.Length + n + 1)
+                .Select(i => str.Substring(i, n))
+                .ToArray();
+        }
+
+
+
+    // *** Multiple Choice Tests
+
+            public interface ITestpaper
+        {
+            string Subject { get; }
+            string[] MarkScheme { get; }
+            string PassMark { get; }
+        }
+
+        public interface IStudent
+        {
+            string[] TestsTaken { get; }
+            void TakeTest(ITestpaper paper, string[] answers);
+        }
+
+        public class Testpaper : ITestpaper
+        {
+            public string Subject { get; }
+
+            public string[] MarkScheme { get; }
+
+            public string PassMark { get; }
+            public Testpaper(string subject, string[] markScheme, string passMark)
+            {
+                Subject = subject;
+                MarkScheme = markScheme;
+                PassMark = passMark;
+            }
+        }
+
+        public class Student : IStudent
+        {
+            List<string> list = new List<string>();
+            public string[] TestsTaken { get { return list.Count == 0 ? new string[] { "No tests taken" } : list.ToArray(); } }
+
+            public void TakeTest(ITestpaper paper, string[] answers)
+            {
+                int percent = Convert.ToInt32((double)100 / (double)answers.Length * (double)paper.MarkScheme.Where(x => answers.Contains(x)).Count());
+                if (int.Parse(paper.PassMark.Substring(0, paper.PassMark.Length - 1)) <= percent)
+                { list.Add(paper.Subject + ": Passed! " + "(" + percent + "%)"); list.Sort(); }
+                else { list.Add(paper.Subject + ": Failed! " + "(" + percent + "%)"); list.Sort(); }
+            }
+        }
+
+
+
+    //Look-and-Say Sequence
+
+            static void Main(string[] args)
+        {
+            Console.WriteLine(LookAndSay(1, 7));
+            Console.WriteLine(LookAndSay(123, 4));
+            Console.WriteLine(LookAndSay(70, 5));
+            Console.WriteLine(LookAndSay(111312211, 2));
+        }
+
+        public static IEnumerable<long> LookAndSay(long start, int n)
+        {
+            string s = start.ToString();
+            var l = new List<long>() { start };
+            for (int i = 0; i < n - 1; i++)
+            {
+                s = LaS(s);
+                l.Add(long.Parse(s));
+            }
+            return l;
+        }
+        public static string LaS(string str)
+        {
+            StringBuilder s = new StringBuilder();
+            string t = str.ToString();
+            int c = 0;
+            char ch = t[0];
+            for (int i = 0; i < t.Length; i++)
+            {
+                if (ch == t[i])
+                    c++;
+                else
+                {
+                    s.Append(c.ToString() + ch);
+                    ch = t[i];
+                    c = 1;
+                }
+            }
+            s.Append(c.ToString() + ch);
+            return s.ToString();
+        }
+
+
+
+    //Palindrome Descendant
+
+            static void Main(string[] args)
+        {
+            Console.WriteLine(PD(11211230));
+            Console.WriteLine(PD(13001120));
+            Console.WriteLine(PD(23336014));
+            Console.WriteLine(PD(11));
+        }
+
+        public static bool PD(int num)
+        {
+            string str_num = num.ToString();
+            while (str_num.Length > 1)
+            {
+                if (str_num == string.Concat(str_num.Reverse()))
+                    return true;
+                string new_str_num = "";
+                for (int i = 0; i < str_num.Length; i += 2)
+                {
+                    int sum_pair = int.Parse(str_num[i].ToString()) + int.Parse(str_num[i + 1].ToString());
+                    new_str_num += sum_pair.ToString();
+                }
+                if (new_str_num.Length % 2 == 1 || str_num.Length == 2)
+                    return false;
+                str_num = new_str_num;
+            }
+            return false;
+        }
+
+
+
+    //Read the Abacus (Part 2: Japanese Soroban)
+
+            static void Main(string[] args)
+        {
+            Console.WriteLine(Soroban(new string[] { "|O|O|O|", "O|O|O|O", "-------", "||O|OO|", "OOOO||O", "OO|OOOO", "OOOOOOO", "OOOOOOO" }));
+            Console.WriteLine(Soroban(new string[] { "OOO||OO", "|||OO||", "-------", "OOOOO||", "OOO||OO", "OO|OOOO", "OOOOOOO", "||OOOOO" }));
+            Console.WriteLine(Soroban(new string[] { "|O|O|OO", "O|O|O||", "-------", "OO||||O", "O|OOOOO", "|OOOOOO", "OOOOOO|", "OOOOOOO" }));
+            Console.WriteLine(Soroban(new string[] { "|OOO|OO", "O|||O||", "-------", "|||OO|O", "OOOO|OO", "OOO|OOO", "OOOOOOO", "OOOOOO|" }));
+        }
+
+        public static int Soroban(string[] frame)
+        {
+            int[] points = new int[7];
+            bool[] flags = new bool[7];
+            for (int i = 0; i < 7; i++)
+            {
+                if (frame[1][i] == 'O')
+                    points[i] = 5;
+                else
+                    points[i] = 0;
+                flags[i] = frame[3][i] == 'O';
+            }
+            for (int j = 3; j < 8; j++)
+                for (int i = 0; i < 7; i++)
+                    if (flags[i])
+                        if (frame[j][i] == 'O')
+                            points[i]++;
+                        else
+                            flags[i] = false;
+            int res = 0;
+            for (int i = 0; i < 7; i++)
+                res += points[i] * (int)Math.Pow(10, 6 - i);
+            return res;
+        }
+
+
+
+    //Three Sum Problem
+
+            static void Main(string[] args)
+        {
+            Console.WriteLine(ThreeSum(new int[] { 0, 1, -1, -1, 2 }));
+            Console.WriteLine(ThreeSum(new int[] { 0, 0, 0, 5, -5 }));
+            Console.WriteLine(ThreeSum(new int[] { 1, 2, 3 }));
+            Console.WriteLine(ThreeSum(new int[1]));
+        }
+
+        public static List<int[]> ThreeSum(int[] arr)
+        {
+            List<int[]> res = new List<int[]>();
+            for (int i = 0; i < arr.Length - 2; i++)
+                for (int j = i + 1; j < arr.Length - 1; j++)
+                    for (int k = j + 1; k < arr.Length; k++)
+                        if (arr[i] + arr[j] + arr[k] == 0)
+                        {
+                            int[] triple = new int[] { arr[i], arr[j], arr[k] };
+                            bool found = false;
+                            foreach (int[] t in res)
+                                if (t[0] == triple[0] && t[1] == triple[1] && t[2] == triple[2])
+                                    found = true;
+                            if (!found)
+                                res.Add(triple);
+                        }
+            return res;
+        }
+
+
+
      */
 
 }

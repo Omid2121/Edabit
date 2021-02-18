@@ -13,30 +13,29 @@ namespace Edabit_Answers
     {
         static void Main(string[] args)
         {
-            Console.WriteLine(TrackRobot(">>.."));
-            Console.WriteLine(TrackRobot("..<.<."));
-            Console.WriteLine(TrackRobot("..<<..>>..<<..>>.."));
-            Console.WriteLine(TrackRobot("<>>>><><<<><>>>><><<<><>>><>"));
-            Console.WriteLine(TrackRobot("...................................................................................................."));
+            Console.WriteLine(ThreeSum(new int[] { 0, 1, -1, -1, 2 }));
+            Console.WriteLine(ThreeSum(new int[] { 0, 0, 0, 5, -5 }));
+            Console.WriteLine(ThreeSum(new int[] { 1, 2, 3 }));
+            Console.WriteLine(ThreeSum(new int[1]));
         }
 
-		public static int[] TrackRobot(string steps)
-		{
-			var pos = steps.ToCharArray().Aggregate(new int[] { 0, 0, 0 }, (arr, ch) => {
-				if (ch == '.')
-				{
-					if (arr[2] == 0) arr[0]++;
-					else if (arr[2] == 1) arr[1]++;
-					else if (arr[2] == 2) arr[0]--;
-					else arr[1]--;
-				}
-				else
-				{
-					arr[2] = (arr[2] + (ch == '<' ? 1 : 5)) % 4;
-				}
-				return arr;
-			});
-			return new int[] { pos[0], pos[1] };
-		}
-	}
+        public static List<int[]> ThreeSum(int[] arr)
+        {
+            List<int[]> res = new List<int[]>();
+            for (int i = 0; i < arr.Length - 2; i++)
+                for (int j = i + 1; j < arr.Length - 1; j++)
+                    for (int k = j + 1; k < arr.Length; k++)
+                        if (arr[i] + arr[j] + arr[k] == 0)
+                        {
+                            int[] triple = new int[] { arr[i], arr[j], arr[k] };
+                            bool found = false;
+                            foreach (int[] t in res)
+                                if (t[0] == triple[0] && t[1] == triple[1] && t[2] == triple[2])
+                                    found = true;
+                            if (!found)
+                                res.Add(triple);
+                        }
+            return res;
+        }
+    }
 }
