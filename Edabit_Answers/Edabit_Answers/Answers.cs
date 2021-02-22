@@ -3311,6 +3311,179 @@ namespace Edabit_Answers
 
 
 
+    //2048 Tiles Slide
+
+            static void Main(string[] args)
+        {
+            Console.WriteLine(LeftSlide(new int[] { 2, 2, 2, 0 }));
+            Console.WriteLine(LeftSlide(new int[] { 2, 2, 4, 4, 8, 8 }));
+			Console.WriteLine(LeftSlide(new int[] { 0, 2, 0, 2, 4 }));
+            Console.WriteLine(LeftSlide(new int[] { 0, 2, 2, 8, 8, 8 }));
+        }
+
+		public static int[] LeftSlide(int[] row)
+		{
+			var lst = row.Where(v => v > 0).ToList();
+			var i = 0;
+			while (i < lst.Count - 1)
+			{
+				if (lst[i] == lst[i + 1])
+				{
+					lst[i] *= 2;
+					lst.RemoveAt(i + 1);
+				}
+				i++;
+			}
+			lst.AddRange(new int[row.Length - lst.Count]);
+			return lst.ToArray();
+		}
+
+
+
+    //Prefix Notation Evaluation
+
+        static void Main(string[] args)
+        {
+            Console.WriteLine(Prefix("+ 5 4"));
+            Console.WriteLine(Prefix("* 12 2"));
+            Console.WriteLine(Prefix("+ -10 10"));
+            Console.WriteLine(Prefix("- 4 10"));
+        }
+
+        static string EvaluateExp(Match match)
+        {
+            var a = int.Parse(match.Groups[2].Value);
+            var b = int.Parse(match.Groups[3].Value);
+            switch (match.Groups[1].Value)
+            {
+                case "+": return (a + b).ToString();
+                case "-": return (a - b).ToString();
+                case "*": return (a * b).ToString();
+                case "/": return (a / b).ToString();
+            }
+            return "0";
+        }
+
+        public static int Prefix(string exp)
+        {
+            var rx = new Regex(@"([+\-*]) (-?\d+) (-?\d+)");
+            int val;
+            while (!int.TryParse(exp, out val))
+            {
+                exp = rx.Replace(exp, new MatchEvaluator(EvaluateExp));
+            }
+            return val;
+        }
+    }
+
+
+
+
+    //Sentence Primeness
+
+    		static void Main(string[] args)
+		{
+			Console.WriteLine(SentencePrimeness("Help me!"));
+			Console.WriteLine(SentencePrimeness("42 is THE aNsWeR..."));
+			Console.WriteLine(SentencePrimeness("Did you smoke?"));
+			Console.WriteLine(SentencePrimeness("10 test cases are enough, this is the last one!"));
+		}
+
+		static bool Is_Prime(int n)
+		{
+			if (n < 4 || n % 2 == 0 || n % 3 == 0) return n == 2 || n == 3;
+			for (var i = 5; i <= (int)Math.Sqrt(n) + 1; i += 2)
+				if (n % i == 0) return false;
+			return true;
+		}
+
+		static bool IsPrimeSentence(IEnumerable<string> words)
+		{
+			return Is_Prime(words.Select(w =>
+						w.ToCharArray()
+							.Select(c => char.IsDigit(c) ? c - 48 : (c & 95 - 64))
+							.Sum()
+					).Sum());
+		}
+
+		public static string SentencePrimeness(string sentence)
+		{
+			var arr = Regex.Split(sentence, @"\W+").Where(s => !string.IsNullOrEmpty(s)).ToArray();
+			if (IsPrimeSentence(arr)) return "Prime Sentence";
+			for (int i = 0; i < arr.Length; i++)
+			{
+				if (IsPrimeSentence(arr.Where((_, ix) => i != ix)))
+					return $"Almost Prime Sentence ({arr[i]})";
+			}
+			return "Composite Sentence";
+		}
+	}
+
+
+
+    //Distance to Nearest Vowel
+
+
+            public static int[] DistanceToNearestVowel(string str)
+        {
+            var chars = str.ToCharArray();
+            var dists = new List<int>();
+
+            for (var i = 0; i < chars.Length; i++)
+            {
+                int left = 0, right = 0;
+                bool touched = false, hitVowel = false;
+
+                for (var r = i; r < chars.Length; r++)
+                    if (IsVowel(chars[r]))
+                        break;
+                    else
+                        right++;
+
+                for (var l = i; l >= 0; l--)
+                    if (IsVowel(chars[l]))
+                    {
+                        hitVowel = true;
+                        break;
+                    }
+                    else
+                    {
+                        left++;
+                        touched = true;
+                    }
+
+                if (touched && i != chars.Length - 1)
+                {
+                    if (hitVowel)
+                        dists.Add(right < left ? right : left);
+                    else
+                        dists.Add(right);
+                }
+                else if (i == chars.Length - 1)
+                    dists.Add(left);
+                else
+                    dists.Add(right);
+            }
+            return dists.ToArray();
+        }
+
+        private static bool IsVowel(char s)
+        {
+            return s == 'a' || s == 'i' || s == 'e' || s == 'o' || s == 'u';
+        }
+
+
+
+    //Farey Sequence
+
+
+
+
+
+
+
+
+
      */
 
 }
