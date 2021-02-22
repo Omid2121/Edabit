@@ -15,7 +15,7 @@ namespace Edabit_Answers
         static void Main(string[] args)
         {
             Console.WriteLine(Farey(1));
-            Console.WriteLine(Farey(4));
+            Console.WriteLine(Farey(3));
             Console.WriteLine(Farey(5));
             Console.WriteLine(Farey(13));
         }
@@ -45,3 +45,4 @@ namespace Edabit_Answers
 			return result;
 		}
 	}
+}
