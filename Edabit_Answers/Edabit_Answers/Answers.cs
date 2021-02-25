@@ -3511,7 +3511,235 @@ namespace Edabit_Answers
 
 
 
+    //Generic Binary Tree
+
+            public class Node<T> where T : IComparable
+        {
+            public T Data;
+            public Node<T> Left;
+            public Node<T> Right;
+            public Node(T data)
+            {
+                Data = data;
+            }
+            public void Insert(T data)
+            {
+                if (data.CompareTo(Data) < 0)
+                {
+                    if (Left != null)
+                        Left.Insert(data);
+                    else
+                        Left = new Node<T>(data);
+                }
+                else
+                {
+                    if (Right != null)
+                        Right.Insert(data);
+                    else
+                        Right = new Node<T>(data);
+                }
+            }
+            public IEnumerable<T> GetTreeData()
+            {
+                List<T> list = new List<T>();
+                if (Left != null)
+                    foreach (var item in Left.GetTreeData().ToList())
+                        list.Add(item);
+                list.Add(Data);
+                if (Right != null)
+                    foreach (var item in Right.GetTreeData().ToList())
+                        list.Add(item);
+                return list;
+            }
+        }
+
+
+
+    //Excel Sheet Column Number
+
+        static void Main(string[] args)
+        {
+            Console.WriteLine(TitleToNumber("A"));
+            Console.WriteLine(TitleToNumber("B"));
+            Console.WriteLine(TitleToNumber("C"));
+            Console.WriteLine(TitleToNumber("AB"));
+        }
+
+        public static int TitleToNumber(string str)
+        {
+            int[] strIntoInt = Array.ConvertAll<char, int>(str.ToCharArray(), (s) =>
+            {
+                return (int)s - 64;
+            });
+            int power = 0;
+            return strIntoInt
+                .Reverse()
+                .Sum(n => (int)Math.Pow(26, power++) * n);
+        }
+
+
+
+    //Poker Hand Ranking
+
+            public static string PokerHandRanking(string[] cards)
+        {
+            string[] order = new string[] { "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K", "A" };
+            int[] ranks = new int[5];
+            HashSet<string> suits = new HashSet<string>();
+            HashSet<int> set_ranks = new HashSet<int>();
+            for (int i = 0; i < 5; i++)
+            {
+                ranks[i] = Array.IndexOf(order, cards[i].Substring(0, cards[i].Length - 1));
+                suits.Add(cards[i].Substring(cards[i].Length - 1));
+                set_ranks.Add(ranks[i]);
+            }
+            Array.Sort(ranks);
+            Array.Reverse(ranks);
+            List<int> lst_group = new List<int>();
+            foreach (int i in set_ranks)
+            {
+                int el_count = 0;
+                for (int j = 0; j < 5; j++)
+                    if (ranks[j] == i)
+                        el_count++;
+                lst_group.Add(el_count);
+            }
+            int[] arr_group = lst_group.ToArray();
+            Array.Sort(arr_group);
+            Array.Reverse(arr_group);
+            bool flush = suits.Count == 1;
+            bool straight = set_ranks.Count == 5 && (ranks[0] - ranks[4] == 4);
+
+            if (straight && flush)
+                return ranks[0] == 12 ? "Royal Flush" : "Straight Flush";
+            if (straight)
+                return "Straight";
+            if (flush)
+                return "Flush";
+            if (arr_group.Length == 2)
+            {
+                if (arr_group[0] == 4)
+                    return "Four of a Kind";
+                else if (arr_group[0] == 3)
+                    return "Full House";
+            }
+            else if (arr_group.Length == 3)
+            {
+                if (arr_group[0] == 3)
+                    return "Three of a Kind";
+                else if (arr_group[0] == 2)
+                    return "Two Pair";
+            }
+            else if (arr_group.Length == 4)
+                return "Pair";
+
+            return "High Card";
+        }
+
+
+
+    //Building a Binary Clock
+
+            static void Main(string[] args)
+        {
+            Console.WriteLine(BinaryClock("10:37:49"));
+            Console.WriteLine(BinaryClock("18:57:31"));
+            Console.WriteLine(BinaryClock("10:50:22"));
+            Console.WriteLine(BinaryClock("08:17:26"));
+        }
+
+		public static string[] BinaryClock(string time)
+		{
+			var clock = new List<string[]>() {
+						new string[] { " ", "0", " ", "0", " ", "0" },
+						new string[] { " ", "0", "0", "0", "0", "0" },
+						new string[] { "0", "0", "0", "0", "0", "0" },
+						new string[] { "0", "0", "0", "0", "0", "0" },
+				};
+			foreach (var digit in time.Replace(":", "").ToCharArray().Select((ch, ix) => new { value = (ch - '0'), col = ix }))
+			{
+				int row = 3, d = digit.value;
+				while (d > 0)
+				{
+					if (d % 2 > 0)
+					{
+						clock[row][digit.col] = "1";
+					}
+					row--;
+					d = d / 2;
+				}
+			}
+			return clock.Select(row => string.Join("", row)).ToArray();
+		}
+
+
+
+    //Powerful Prime Factor
+
+        static void Main(string[] args)
+        {
+            Console.WriteLine(ExpressFactors(2));
+            Console.WriteLine(ExpressFactors(4));
+            Console.WriteLine(ExpressFactors(10));
+            Console.WriteLine(ExpressFactors(60));
+        }
+
+        public static string ExpressFactors(int n)
+        {
+            List<string> factors = new List<string>();
+            int count;
+            for (int i = 2; i < Math.Pow(n, 0.5) + 1; i++)
+            {
+                count = 0;
+                while (n % i == 0)
+                {
+                    n /= i;
+                    count++;
+                }
+                if (count > 0)
+                    factors.Add(i.ToString() + (count == 1 ? "" : string.Format("^{0}", count)));
+            }
+            if (n > 2)
+                factors.Add(n.ToString());
+            return string.Join(" x ", factors);
+        }
+
+
+
+    //Character Recognition ⁠— What's the Time?
+
+            static void Main(string[] args)
+        {
+            Console.WriteLine(WhatsTheTime("1110010000111011110101100100010100101001000011101111010010010001000111101110001110111"));
+            Console.WriteLine(WhatsTheTime("1110111000101010010100010101010100101011100011101111010100010001010111101110000010111"));
+            Console.WriteLine(WhatsTheTime("0100111000111011111000010100010101010000100011101110100001010100000111100010001110001"));
+            Console.WriteLine(WhatsTheTime("1110111000111011100100010101000101111011100011101111000001010001010111101110001110111"));
+        }
+
+        public static string WhatsTheTime(string bitmap)
+        {
+            List<int> binary = new List<int>() { 31599, 11415, 29671, 29647, 23497, 31183, 18927, 29257, 31727, 31689 };
+            List<string> array = new List<string>();
+            for (int i = 0; i < 5; i++)
+                array.Add(bitmap.Substring(i * 17, 17));
+            string s1 = "", s2 = "", s3 = "", s4 = "";
+            for (int i = 0; i < array.Count; i++)
+            {
+                s1 += array[i].Substring(0, 3);
+                s2 += array[i].Substring(4, 3);
+                s3 += array[i].Substring(10, 3);
+                s4 += array[i].Substring(14, 3);
+            }
+            return string.Concat(binary.FindIndex(i => i == Convert.ToInt32(s1, 2)), binary.FindIndex(i => i == Convert.ToInt32(s2, 2)), ":"
+                , binary.FindIndex(i => i == Convert.ToInt32(s3, 2)), binary.FindIndex(i => i == Convert.ToInt32(s4, 2)));
+        }
+
+
+
     //
+        
+
+
 
 
 
