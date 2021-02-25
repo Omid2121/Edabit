@@ -3736,7 +3736,207 @@ namespace Edabit_Answers
 
 
 
-    //
+    //Primal Strength
+
+            static void Main(string[] args)
+        {
+            Console.WriteLine(PrimalStrength(211));
+            Console.WriteLine(PrimalStrength(17));
+            Console.WriteLine(PrimalStrength(19));
+            Console.WriteLine(PrimalStrength(5));
+        }
+
+        public static string PrimalStrength(int n)
+        {
+            int nextPrime = n;
+            bool prime = true;
+            do
+            {
+                prime = true;
+                nextPrime++;
+                for (int factor = 2; factor <= System.Math.Sqrt(nextPrime); factor++)
+                {
+                    if (nextPrime % factor == 0)
+                    {
+                        prime = false;
+                        break;
+                    }
+                }
+            } while (!prime);
+​
+            int lastPrime = n;
+            do
+            {
+                prime = true;
+                lastPrime--;
+                for (int factor = (int)System.Math.Sqrt(lastPrime); factor >= 2; factor--)
+                {
+                    if (lastPrime % factor == 0)
+                    {
+                        prime = false;
+                        break;
+                    }
+                }
+            } while (!prime);
+​
+            if (n - lastPrime == nextPrime - n)
+            {
+                return "Balanced";
+            }
+            else if (n - lastPrime > nextPrime - n)
+            {
+                return "Strong";
+            }
+            else
+            {
+                return "Weak";
+            }
+        }
+
+
+
+    //Point Within Triangle
+
+            static void Main(string[] args)
+        {
+            Console.WriteLine(WithinTriangle(new int[] { 1, 4 }, new int[] { 5, 6 }, new int[] { 6, 1 }, new int[] { 4, 5 }));
+            Console.WriteLine(WithinTriangle(new int[] { 1, 4 }, new int[] { 5, 6 }, new int[] { 6, 1 }, new int[] { 3, 2 }));
+            Console.WriteLine(WithinTriangle(new int[] { 1, 7 }, new int[] { 2, 4 }, new int[] { 9, 3 }, new int[] { 2, 6 }));
+            Console.WriteLine(WithinTriangle(new int[] { 1, 7 }, new int[] { 2, 4 }, new int[] { 9, 3 }, new int[] { 6, 5 }));
+        }
+
+        public static bool WithinTriangle(int[] p1, int[] p2, int[] p3, int[] test)
+        {
+            float d1, d2, d3;
+            bool has_neg, has_pos;
+
+            d1 = sign(test, p1, p2);
+            d2 = sign(test, p2, p3);
+            d3 = sign(test, p3, p1);
+
+            has_neg = (d1 < 0) || (d2 < 0) || (d3 < 0);
+            has_pos = (d1 > 0) || (d2 > 0) || (d3 > 0);
+
+            return !(has_neg && has_pos);
+
+        }
+
+        static float sign(int[] p1, int[] p2, int[] p3)
+        {
+            return (p1[0] - p3[0]) * (p2[1] - p3[1]) - (p2[0] - p3[0]) * (p1[1] - p3[1]);
+        }
+
+
+
+    //Maxie and Minnie
+
+            static void Main(string[] args)
+        {
+            Console.WriteLine(MaxMin(12340));
+            Console.WriteLine(MaxMin(98761));
+            Console.WriteLine(MaxMin(9000));
+            Console.WriteLine(MaxMin(11321));
+        }
+
+        private static string swap(string s, int i, int j)
+        {
+            var ca = s.ToCharArray();
+            var tmp = ca[i];
+            ca[i] = ca[j];
+            ca[j] = tmp;
+            return new string(ca);
+        }
+
+        public static long[] MaxMin(long n)
+        {
+            var ds = n.ToString();
+            long maxie = n, minie = n;
+            for (int i = 0; i < ds.Length - 1; i++)
+            {
+                var rest = ds.Substring(i + 1);
+                var j = ds.LastIndexOf(rest.Max());
+                if (ds[j] > ds[i])
+                {
+                    maxie = long.Parse(swap(ds, i, j));
+                    break;
+                }
+            }
+            for (int i = 0; i < ds.Length - 1; i++)
+            {
+                var rest = ds.Substring(i + 1);
+                if (long.Parse(rest) == 0) break;
+                var j = i > 0 ? ds.LastIndexOf(rest.Min()) : ds.LastIndexOf(rest.Replace("0", "").Min());
+                if (ds[j] < ds[i])
+                {
+                    minie = long.Parse(swap(ds, i, j));
+                    break;
+                }
+            }
+            return new long[] { maxie, minie };
+
+        }
+
+
+
+    //Centered Hexagonal Number
+
+            static void Main(string[] args)
+        {
+            Console.WriteLine(HexagonalNumbers(1));
+            Console.WriteLine(HexagonalNumbers(7));
+            Console.WriteLine(HexagonalNumbers(19));
+            Console.WriteLine(HexagonalNumbers(21));
+        }
+
+        public static string HexagonalNumbers(int n = 1)
+        {
+            var root = GetRoot(n);
+            var isValid = Math.Abs(root - (int)root) == 0;
+            return !isValid ? "Invalid" : GetCenteredHexagon(n).ToString();
+        }
+
+        private static StringBuilder GetCenteredHexagon(int n)
+        {
+            var sb = new StringBuilder();
+            int x = 0, y = (int)GetRoot(n), length = (int)GetRoot(n) * 2 - 1;
+
+            for (var i = 0; i < length; i++)
+            {
+                var sequence = GetRoot(n) + x;
+                sb.Append(GetSpaces(y));
+
+                for (var j = 0; j < sequence; j++)
+                    sb.Append("o").Append(j != (int)sequence - 1 ? " " : "");
+
+                sb.Append(GetSpaces(y)).Append(i != (int)length - 1 ? "\n" : "");
+
+                if (i < GetRoot(n) - 1)
+                {
+                    x++;
+                    y--;
+                }
+
+                if (!(i >= GetRoot(n) - 1)) continue;
+                x--;
+                y++;
+            }
+            return sb;
+        }
+
+        private static double GetRoot(int n)
+        {
+            return (3 + Math.Sqrt(12 * n - 3)) / 6;
+        }
+
+        private static string GetSpaces(int i)
+        {
+            var space = "";
+            for (var j = 0; j < i; j++)
+                space += " ";
+
+            return space;
+        }
+
         
 
 
