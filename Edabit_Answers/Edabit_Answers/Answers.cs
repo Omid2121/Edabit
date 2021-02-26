@@ -3937,6 +3937,114 @@ namespace Edabit_Answers
             return space;
         }
 
+
+
+    //A Lonely Class for Lonely Numbers
+
+
+            static void Main(string[] args)
+        {
+            Console.WriteLine(LoneliestNumber(0, 22));
+            Console.WriteLine(LoneliestNumber(8, 123));
+            Console.WriteLine(LoneliestNumber(938, 1190));
+            Console.WriteLine(LoneliestNumber(120, 1190));
+        }
+
+		public static string LoneliestNumber(int lo, int hi)
+		{
+			int ln = 0, d = 2, c = 2;
+			for (int n = Math.Max(3, lo); n < hi; n++)
+			{
+				var ofs = n % 2 > 0 ? 2 : 1;
+				bool a, b;
+				while (true)
+				{
+					a = IsPrime(n + ofs);
+					b = IsPrime(n - ofs);
+					if (a || b) break;
+					ofs += 2;
+				}
+				if (ofs > d)
+				{
+					ln = n;
+					d = ofs;
+					c = a ? n + ofs : n - ofs;
+				}
+			}
+			return $"number: {ln}, distance: {d}, closest: {c}";
+		}
+
+		public static bool IsPrime(int n)
+		{
+			if (n == 2 || n == 3) return true;
+			if (n < 2 || n % 2 == 0) return false;
+			for (int i = 3; i <= Math.Sqrt(n); i += 2)
+			{
+				if (n % i == 0) return false;
+			}
+			return true;
+		}
+
+
+
+    //Solve for the Red Area
+
+
+            static void Main(string[] args)
+        {
+            Console.WriteLine(RedArea(0));
+            Console.WriteLine(RedArea(4));
+            Console.WriteLine(RedArea(25));
+            Console.WriteLine(RedArea(36));
+        }
+
+        public static double RedArea(int r)
+        {
+            return Math.Round(r * r * 0.07824944560, 3);
+        }
+
+
+
+    //Throwing <N> Amount of Darts Find All Possible Combinations to Reach a Target Score
+
+            static void Main(string[] args)
+        {
+            Console.WriteLine(DartsSolver(new int[] { 3, 6, 8, 11, 15, 19, 22 }, 3, 35));
+            Console.WriteLine(DartsSolver(new int[] { 2, 4, 7, 10, 13, 18, 24 }, 3, 29));
+            Console.WriteLine(DartsSolver(new int[] { 3, 7, 11, 14, 18, 20, 25 }, 3, 40));
+            Console.WriteLine(DartsSolver(new int[] { 3, 7, 11, 14, 18, 20, 25 }, 3, 8));
+        }
+
+        public static string[] DartsSolver(int[] sections, int darts, int target)
+        {
+            HashSet<string> r = new HashSet<string>();
+            int[] combination = new int[] { 0 };
+            Array.Resize(ref combination, darts);
+            int length = sections.Length;
+            int sum_darts;
+            int num;
+            for (int i = 0; i < Math.Pow(length, darts); i++)
+            {
+                sum_darts = 0;
+                num = i;
+                for (int j = 0; j < darts; j++)
+                {
+                    combination[j] = num % length;
+                    sum_darts += sections[combination[j]];
+                    num /= length;
+                }
+                if (sum_darts == target)
+                {
+                    Array.Sort(combination);
+                    string str = "";
+                    foreach (int k in combination)
+                        str += sections[k].ToString() + "-";
+                    r.Add(str.Substring(0, str.Length - 1));
+                }
+            }
+            string[] arr_r = r.ToArray();
+            return arr_r;
+        }
         
 
 

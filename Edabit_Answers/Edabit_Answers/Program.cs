@@ -14,59 +14,41 @@ namespace Edabit_Answers
     {
         static void Main(string[] args)
         {
-            Console.WriteLine(HexagonalNumbers(1));
-            Console.WriteLine(HexagonalNumbers(7));
-            Console.WriteLine(HexagonalNumbers(19));
-            Console.WriteLine(HexagonalNumbers(21));
+            Console.WriteLine(DartsSolver(new int[] { 3, 6, 8, 11, 15, 19, 22 }, 3, 35));
+            Console.WriteLine(DartsSolver(new int[] { 2, 4, 7, 10, 13, 18, 24 }, 3, 29));
+            Console.WriteLine(DartsSolver(new int[] { 3, 7, 11, 14, 18, 20, 25 }, 3, 40));
+            Console.WriteLine(DartsSolver(new int[] { 3, 7, 11, 14, 18, 20, 25 }, 3, 8));
         }
 
-        public static string HexagonalNumbers(int n = 1)
+        public static string[] DartsSolver(int[] sections, int darts, int target)
         {
-            var root = GetRoot(n);
-            var isValid = Math.Abs(root - (int)root) == 0;
-            return !isValid ? "Invalid" : GetCenteredHexagon(n).ToString();
-        }
-
-        private static StringBuilder GetCenteredHexagon(int n)
-        {
-            var sb = new StringBuilder();
-            int x = 0, y = (int)GetRoot(n), length = (int)GetRoot(n) * 2 - 1;
-
-            for (var i = 0; i < length; i++)
+            HashSet<string> r = new HashSet<string>();
+            int[] combination = new int[] { 0 };
+            Array.Resize(ref combination, darts);
+            int length = sections.Length;
+            int sum_darts;
+            int num;
+            for (int i = 0; i < Math.Pow(length, darts); i++)
             {
-                var sequence = GetRoot(n) + x;
-                sb.Append(GetSpaces(y));
-
-                for (var j = 0; j < sequence; j++)
-                    sb.Append("o").Append(j != (int)sequence - 1 ? " " : "");
-
-                sb.Append(GetSpaces(y)).Append(i != (int)length - 1 ? "\n" : "");
-
-                if (i < GetRoot(n) - 1)
+                sum_darts = 0;
+                num = i;
+                for (int j = 0; j < darts; j++)
                 {
-                    x++;
-                    y--;
+                    combination[j] = num % length;
+                    sum_darts += sections[combination[j]];
+                    num /= length;
                 }
-
-                if (!(i >= GetRoot(n) - 1)) continue;
-                x--;
-                y++;
+                if (sum_darts == target)
+                {
+                    Array.Sort(combination);
+                    string str = "";
+                    foreach (int k in combination)
+                        str += sections[k].ToString() + "-";
+                    r.Add(str.Substring(0, str.Length - 1));
+                }
             }
-            return sb;
-        }
-
-        private static double GetRoot(int n)
-        {
-            return (3 + Math.Sqrt(12 * n - 3)) / 6;
-        }
-
-        private static string GetSpaces(int i)
-        {
-            var space = "";
-            for (var j = 0; j < i; j++)
-                space += " ";
-
-            return space;
+            string[] arr_r = r.ToArray();
+            return arr_r;
         }
     }
 }
