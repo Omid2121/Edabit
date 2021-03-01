@@ -14,41 +14,45 @@ namespace Edabit_Answers
     {
         static void Main(string[] args)
         {
-            Console.WriteLine(DartsSolver(new int[] { 3, 6, 8, 11, 15, 19, 22 }, 3, 35));
-            Console.WriteLine(DartsSolver(new int[] { 2, 4, 7, 10, 13, 18, 24 }, 3, 29));
-            Console.WriteLine(DartsSolver(new int[] { 3, 7, 11, 14, 18, 20, 25 }, 3, 40));
-            Console.WriteLine(DartsSolver(new int[] { 3, 7, 11, 14, 18, 20, 25 }, 3, 8));
+            Console.WriteLine(LuckyTicket(2));
+            Console.WriteLine(LuckyTicket(4));
+            Console.WriteLine(LuckyTicket(12));
+            Console.WriteLine(LuckyTicket(14));
         }
 
-        public static string[] DartsSolver(int[] sections, int darts, int target)
+        public static long LuckyTicket(int n)
         {
-            HashSet<string> r = new HashSet<string>();
-            int[] combination = new int[] { 0 };
-            Array.Resize(ref combination, darts);
-            int length = sections.Length;
-            int sum_darts;
-            int num;
-            for (int i = 0; i < Math.Pow(length, darts); i++)
+            long total = 0;
+            for (int i = 0; i <= n / 2 * 9; i++)
             {
-                sum_darts = 0;
-                num = i;
-                for (int j = 0; j < darts; j++)
-                {
-                    combination[j] = num % length;
-                    sum_darts += sections[combination[j]];
-                    num /= length;
-                }
-                if (sum_darts == target)
-                {
-                    Array.Sort(combination);
-                    string str = "";
-                    foreach (int k in combination)
-                        str += sections[k].ToString() + "-";
-                    r.Add(str.Substring(0, str.Length - 1));
-                }
+                total += Step1(n / 2, i);
             }
-            string[] arr_r = r.ToArray();
-            return arr_r;
+            return total;
+        }
+        static int Step2(int num, int sum)
+        {
+            if (num == 0)
+                return sum == 0 ? 1 : 0;
+            if (sum == 0)
+                return 1;
+
+            int returnVal = 0;
+
+            for (int i = 0; i <= 9; i++)
+                if (sum - i >= 0)
+                    returnVal += Step2(num - 1, sum - i);
+
+            return returnVal;
+        }
+        static long Step1(int num, int sum)
+        {
+            long returnVal = 0;
+
+            for (int i = 0; i <= 9; i++)
+                if (sum - i >= 0)
+                    returnVal += Step2(num - 1, sum - i);
+
+            return returnVal * returnVal;
         }
     }
 }

@@ -4045,12 +4045,185 @@ namespace Edabit_Answers
             string[] arr_r = r.ToArray();
             return arr_r;
         }
-        
+
+
+
+    //Validate the Tic-Tac-Toe Game State
+
+            static void Main(string[] args)
+        {
+            Console.WriteLine(ValidateTicTacToe(new string[] { "X  ", "   ", "   " }));
+            Console.WriteLine(ValidateTicTacToe(new string[] { "O  ", "   ", "   " }));
+            Console.WriteLine(ValidateTicTacToe(new string[] { "X X", " O ", "   " }));
+            Console.WriteLine(ValidateTicTacToe(new string[] { "XOX", " X ", "   " }));
+        }
+
+        public static bool ValidateTicTacToe(string[] board)
+        {
+            if (!board.All(s => s.Length == 3)) return false;
+            var XODiff = board.Select(r => r.Select(c => c == 'X' ? 1 : c == 'O' ? -1 : 0).Sum()).Sum();
+            if (XODiff < 0 || XODiff > 1) return false;
+            var brd = board.ToList();
+            brd.AddRange(Enumerable.Range(0, 3).Select(i => string.Join("", board.Select(r => r[i]))));
+            brd.Add(string.Join("", Enumerable.Range(0, 3).Select(i => board[i][i])));
+            brd.Add(string.Join("", Enumerable.Range(0, 3).Select(i => board[i][2 - i])));
+            return !(brd.Where(l => l == "XXX").Count() > 0 && brd.Where(l => l == "OOO").Count() > 0);
+        }
+
+
+
+    //The Centrifuge Problem
+
+            static void Main(string[] args)
+        {
+            Console.WriteLine(Centrifuge(6, 4));
+            Console.WriteLine(Centrifuge(2, 1));
+            Console.WriteLine(Centrifuge(3, 3));
+            Console.WriteLine(Centrifuge(21, 18));
+        }
+
+        public static bool IsPrime(int n)
+        {
+            if (n == 2 || n == 3) return true;
+            if (n < 2 || n % 2 == 0) return false;
+            for (int i = 3; i <= Math.Sqrt(n); i += 2)
+            {
+                if (n % i == 0) return false;
+            }
+            return true;
+        }
+
+        public static bool Centrifuge(int n, int k)
+        {
+            if (n == 1 || k == 1 || n - k == 1) return false;
+            if (n == k || n % 2 == 0) return true;
+            return !IsPrime(n) && k % 2 == 0;
+        }
+
+
+
+    //Rotate-Transform the Two-Dimensional Matrix
+
+            static void Main(string[] args)
+        {
+            Console.WriteLine(RotateTransform(new int[2, 2]{{ 2, 4 },{ 0, 0 }}, 1));
+            Console.WriteLine(RotateTransform(new int[2, 2]{{ 2, 4 },{ 0, 0 }}, -1));
+            Console.WriteLine(RotateTransform(new int[4, 4]{{ 1, 4, 0, 0 },{ 2, 8, 0, 0 },{ 0, 0, 3, 5 },{ 0, 0, 7, 1 }}, 2));
+            Console.WriteLine(RotateTransform(new int[4, 4]{{ 4, 3, 1, 2 },{ 2, 1, 3, 4 },{ 0, 0, 0, 0 },{ 0, 0, 0, 0 }}, -2));
+        }
+
+        public static int[,] RotateTransform(int[,] arr, int num)
+        {
+            int n = num % 4;
+            n = n < 0 ? 4 + n : n;
+            int size = arr.GetUpperBound(0) + 1;
+            for (int i = 0; i < n; i++)
+            {
+
+                List<List<int>> res = new List<List<int>> { };
+                for (int r = 0; r < size; r++)
+                {
+                    List<int> row = new List<int> { };
+                    for (int c = 0; c < size; c++)
+                        row.Add(arr[size - 1 - c, r]);
+                    res.Add(row);
+                }
+                for (int r = 0; r < size; r++)
+                    for (int c = 0; c < size; c++)
+                        arr[r, c] = res[r][c];
+            }
+            return arr;
+        }
+
+
+
+    //**The Smallest Number
+
+
+            static void Main(string[] args)
+        {
+            Console.WriteLine(Smallest(1));
+            Console.WriteLine(Smallest(5));
+            Console.WriteLine(Smallest(10));
+            Console.WriteLine(Smallest(20));
+        }
+
+        public static BigInteger Gcd(BigInteger a, BigInteger b)
+        {
+            BigInteger tmp;
+            while (a > 0)
+            {
+                tmp = a;
+                a = b % a;
+                b = tmp;
+            }
+            return b;
+        }
+
+        public static BigInteger Lcm(BigInteger a, BigInteger b)
+        {
+            return a * b / Gcd(a, b);
+        }
+
+        public static string Smallest(int n)
+        {
+            BigInteger res = 1;
+            for (int i = 1; i <= n; i++)
+                res = Lcm(res, new BigInteger(i));
+            return res.ToString();
+        }
 
 
 
 
+    //Number of Lucky Tickets
 
+            static void Main(string[] args)
+        {
+            Console.WriteLine(LuckyTicket(2));
+            Console.WriteLine(LuckyTicket(4));
+            Console.WriteLine(LuckyTicket(12));
+            Console.WriteLine(LuckyTicket(14));
+        }
+
+        public static long LuckyTicket(int n)
+        {
+            long total = 0;
+            for (int i = 0; i <= n / 2 * 9; i++)
+            {
+                total += Step1(n / 2, i);
+            }
+            return total;
+        }
+        static int Step2(int num, int sum)
+        {
+            if (num == 0)
+                return sum == 0 ? 1 : 0;
+            if (sum == 0)
+                return 1;
+
+            int returnVal = 0;
+
+            for (int i = 0; i <= 9; i++)
+                if (sum - i >= 0)
+                    returnVal += Step2(num - 1, sum - i);
+
+            return returnVal;
+        }
+        static long Step1(int num, int sum)
+        {
+            long returnVal = 0;
+
+            for (int i = 0; i <= 9; i++)
+                if (sum - i >= 0)
+                    returnVal += Step2(num - 1, sum - i);
+
+            return returnVal * returnVal;
+        }
+
+
+
+    //
 
 
 
