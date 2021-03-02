@@ -4223,7 +4223,136 @@ namespace Edabit_Answers
 
 
 
-    //
+    //Simplified Proper Fractions
+
+            static void Main(string[] args)
+        {
+            Console.WriteLine(SimPropFrac(10));
+            Console.WriteLine(SimPropFrac(7));
+            Console.WriteLine(SimPropFrac(30));
+            Console.WriteLine(SimPropFrac(100));
+        }
+
+        public static int Gcd(int a, int b)
+        {
+            int tmp;
+            while (a > 0)
+            {
+                tmp = a;
+                a = b % a;
+                b = tmp;
+            }
+            return b;
+        }
+
+        public static int SimPropFrac(int maxDen)
+        {
+            int s = 0;
+            for (int n = 1; n <= maxDen; n++)
+                for (int d = 1; d <= maxDen; d++)
+                    if (n < d && Gcd(n, d) == 1)
+                        s += 1;
+            return s;
+        }
+
+
+
+    //Helping Alex with Treasure
+
+            static void Main(string[] args)
+        {
+            Console.WriteLine(Solve(new int[] { 7, 2 }));
+            Console.WriteLine(Solve(new int[] { 2, 7, 3 }));
+            Console.WriteLine(Solve(new int[] { 1000, 1000, 1000, 1000, 1000 }));
+            Console.WriteLine(Solve(new int[] { 823, 912, 345, 100000, 867, 222, 991, 3, 40000 }));
+        }
+
+		public static int Solve(int[] boxes)
+		{
+			int[][] mtx = new int[boxes.Length][];
+			for (int i = 0; i < mtx.Length; i++)
+			{
+				mtx[i] = new int[boxes.Length];
+				mtx[i][i] = boxes[i];
+			}
+
+			for (int k = 1; k < mtx.Length; k++)
+			{
+				for (int i = 0; i + k < mtx.Length; i++)
+				{
+					int j = i + k;
+					mtx[i][j] = Math.Max(boxes[i] - mtx[i + 1][j], boxes[j] - mtx[i][j - 1]);
+				}
+			}
+			return mtx[0][mtx.Length - 1];
+		}
+
+
+
+
+    //Solve a Linear Equation
+
+
+                static void Main(string[] args)
+        {
+            Console.WriteLine(TrailingZeroes(6));
+            Console.WriteLine(TrailingZeroes(11));
+            Console.WriteLine(TrailingZeroes(30));
+            Console.WriteLine(TrailingZeroes(150));
+        }
+
+    		public static int TrailingZeroes(int n)
+		{
+			int twoCount = 0, fiveCount = 0;
+			for (int factor = 2; factor <= n; factor++)
+			{
+				int number = factor;
+				
+				while (number % 2 == 0)
+				{
+					twoCount++;
+					number /= 2;
+				}
+				
+				while (number % 5 == 0)
+				{
+					fiveCount++;
+					number /= 5;
+				}
+			}
+
+			return Math.Min(twoCount, fiveCount);
+		}
+
+
+
+        //Unravel all the Possibilities
+
+            static void Main(string[] args)
+        {
+            Console.WriteLine(Unravel("a[b|c]"));
+            Console.WriteLine(Unravel("a[b|c]de[f|g]"));
+            Console.WriteLine(Unravel("a[b]c[d]"));
+            Console.WriteLine(Unravel("a[b|c|d|e]f"));
+        }
+
+		public static string[] Unravel(string txt)
+		{
+			var qry = Regex.Matches(txt, @"[\w\s\'?]+|\[{1}[\s\w\'?\|]+\]{1}").Cast<Match>().Select(m => m.Value.Trim('[', ']'));
+			var strs = new List<string> { "" };
+			foreach (var s in qry)
+			{
+				if (s.Contains('|'))
+				{
+					strs = (from x in strs from y in s.Split('|') select x + y).ToList();
+				}
+				else
+				{
+					strs = strs.Select(x => x + s).ToList();
+				}
+			}
+			return strs.OrderBy(s => s).ToArray();
+		}
 
 
 

@@ -14,45 +14,30 @@ namespace Edabit_Answers
     {
         static void Main(string[] args)
         {
-            Console.WriteLine(LuckyTicket(2));
-            Console.WriteLine(LuckyTicket(4));
-            Console.WriteLine(LuckyTicket(12));
-            Console.WriteLine(LuckyTicket(14));
+            Console.WriteLine(Solve(new int[] { 7, 2 }));
+            Console.WriteLine(Solve(new int[] { 2, 7, 3 }));
+            Console.WriteLine(Solve(new int[] { 1000, 1000, 1000, 1000, 1000 }));
+            Console.WriteLine(Solve(new int[] { 823, 912, 345, 100000, 867, 222, 991, 3, 40000 }));
         }
 
-        public static long LuckyTicket(int n)
-        {
-            long total = 0;
-            for (int i = 0; i <= n / 2 * 9; i++)
-            {
-                total += Step1(n / 2, i);
-            }
-            return total;
-        }
-        static int Step2(int num, int sum)
-        {
-            if (num == 0)
-                return sum == 0 ? 1 : 0;
-            if (sum == 0)
-                return 1;
+		public static int Solve(int[] boxes)
+		{
+			int[][] mtx = new int[boxes.Length][];
+			for (int i = 0; i < mtx.Length; i++)
+			{
+				mtx[i] = new int[boxes.Length];
+				mtx[i][i] = boxes[i];
+			}
 
-            int returnVal = 0;
-
-            for (int i = 0; i <= 9; i++)
-                if (sum - i >= 0)
-                    returnVal += Step2(num - 1, sum - i);
-
-            return returnVal;
-        }
-        static long Step1(int num, int sum)
-        {
-            long returnVal = 0;
-
-            for (int i = 0; i <= 9; i++)
-                if (sum - i >= 0)
-                    returnVal += Step2(num - 1, sum - i);
-
-            return returnVal * returnVal;
-        }
-    }
+			for (int k = 1; k < mtx.Length; k++)
+			{
+				for (int i = 0; i + k < mtx.Length; i++)
+				{
+					int j = i + k;
+					mtx[i][j] = Math.Max(boxes[i] - mtx[i + 1][j], boxes[j] - mtx[i][j - 1]);
+				}
+			}
+			return mtx[0][mtx.Length - 1];
+		}
+	}
 }
